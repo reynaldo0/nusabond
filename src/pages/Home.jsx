@@ -15,7 +15,6 @@ export const Home = () => {
   return (
     <section className="relative w-full h-screen overflow-hidden">
       {/* Background Video */}
-      {/* sumber video: https://youtu.be/IrcoYCD9-nM?si=yYt0PDmRpYo5gPeS */}
       <video
         ref={videoRef}
         className="absolute top-0 left-0 w-full h-full object-cover"
@@ -28,23 +27,20 @@ export const Home = () => {
         Browser Anda tidak mendukung tag video.
       </video>
 
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-
       {/* Awan Pertama */}
       <div
         id="cloud"
         className="absolute bottom-0 scale-y-125 md:scale-y-100 md:-bottom-16 w-full right-0 animate-cloud"
       >
         <img
-          src="assets/illustrator/cloud.svg"
+          src="/illustrator/cloud.svg"
           alt="Cloud Effect"
           className="w-full h-auto object-cover"
         />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-5 text-zoom-in">
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-5 text-zoom-in bg-black/60">
         {/* Title */}
         <img
           src="/illustrator/NusaBond.svg"
@@ -77,8 +73,6 @@ export const Home = () => {
                 className="transition-transform transform group-hover:translate-x-1"
               />
             </span>
-
-            {/* Green Background Animation */}
             <span className="absolute inset-0"></span>
           </button>
         </div>

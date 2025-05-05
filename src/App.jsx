@@ -6,6 +6,7 @@ function App() {
     <div className="text-center">
       <Navbar />
       <Home />
+      <Home />
     </div>
   );
 }
