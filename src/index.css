@@ -40,3 +40,53 @@
       "100%": { transform: scale(1), opacity: 1 }
     };
   }
+
+  .map-container {
+    width: 100%;
+    max-height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  .indonesia {
+    width: 100%;
+    /* SVG mengikuti lebar kontainer */
+    height: auto;
+    /* Tinggi otomatis agar proporsional */
+    display: block;
+  }
+  
+  .indonesia path {
+    fill: #ffff;
+    transition: fill 0.6s;
+  }
+  
+  .pulau_active path:hover {
+    fill: #FBC740;
+    cursor: pointer;
+  }
+  
+  .pulau_nonactive path:hover {
+    fill: red;
+    cursor: pointer;
+  }
+  
+  #tooltip {
+    position: absolute;
+    z-index: 10;
+    background-color: #FBC740;
+    color: #000;
+    padding: 10px 30px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+  
+  .hidden {
+    display: none;
+  }
+  

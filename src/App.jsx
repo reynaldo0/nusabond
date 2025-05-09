@@ -1,4 +1,5 @@
 import Navbar from "./components/navbar";
+import About from "./pages/About/Peta";
 import { Home } from "./pages/Home";
 
 function App() {
@@ -6,7 +7,7 @@ function App() {
     <div className="text-center">
       <Navbar />
       <Home />
-      <Home />
+      <About />
     </div>
   );
 }
