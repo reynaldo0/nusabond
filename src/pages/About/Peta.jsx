@@ -1,7 +1,7 @@
 import React from "react";
 import Map from "../../components/Map";
 
-const About = () => {
+const Peta = () => {
   return (
     <section
       id="eksplore"
@@ -76,4 +76,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Peta;

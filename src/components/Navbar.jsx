@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -15,20 +16,20 @@ const Navbar = () => {
           </div>
           <ul className="flex space-x-4 text-white">
             <li className="relative group">
-              <a
-                href="index.html"
+              <Link
+                to={"/"}
                 className="block rounded px-2 py-1 transition-all duration-300 text-white hover:text-white-400 before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:w-full before:scale-x-0 before:bg-white before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
               >
                 Beranda
-              </a>
+              </Link>
             </li>
             <li className="relative group">
-              <a
-                href="about.html"
+              <Link
+                to={"/about"}
                 className="block rounded px-2 py-1 transition-all duration-300 text-white hover:text-white-400 before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:w-full before:scale-x-0 before:bg-white before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
               >
                 Tentang
-              </a>
+              </Link>
             </li>
             <li className="relative group">
               <a
