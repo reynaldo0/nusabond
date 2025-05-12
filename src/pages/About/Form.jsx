@@ -174,7 +174,7 @@ const Form = () => {
               src="/illustrator/form.png"
               draggable="false"
               alt="Tari Nusantara"
-              className="w-96 md:w-[600px] md:scale-125 h-auto"
+              className="w-80 md:w-[500px] h-auto object-contain"
             />
           </div>
           <div className="absolute top-4 left-4">
