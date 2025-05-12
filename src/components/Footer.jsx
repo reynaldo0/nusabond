@@ -9,7 +9,7 @@ const Footer = () => {
           <div class="mb-6 flex flex-col justify-between md:mb-0">
             <a href="#" class="flex items-center">
               <img
-                src="assets/logo/footer.png"
+                src="/illustrator/logo/footer.png"
                 class="me-3 h-auto w-[220px]"
                 alt="NusaBond Logo"
               />

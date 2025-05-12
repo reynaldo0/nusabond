@@ -6,7 +6,7 @@ const Cta = () => {
     <section class="relative pb-20 md:pb-56">
       <div class="absolute -bottom-2 w-full">
         <img
-          src="assets/illustrator/wave/siluet.png"
+          src="/illustrator/wave/siluet.png"
           class="w-full h-full object-cover"
           alt=""
         />
