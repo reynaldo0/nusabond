@@ -3,6 +3,7 @@ import Peta from "./About/Peta";
 import Hero from "./About/Hero";
 import Tantangan from "./About/Tantangan";
 import Upaya from "./About/Identitas";
+import Form from "./About/Form";
 
 const About = () => {
   return (
@@ -11,6 +12,7 @@ const About = () => {
       <Peta />
       <Tantangan />
       <Upaya />
+      <Form />
     </>
   );
 };
