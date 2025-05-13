@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import plusIcon from "/icon/plus.svg";
 import minusIcon from "/icon/minus.svg";
-import accordionData from "../../docs/TantanganData";
+import accordionData from "../../docs/tantanganData";
 
 const AccordionItem = ({ title, content, isOpen, onClick }) => {
   return (

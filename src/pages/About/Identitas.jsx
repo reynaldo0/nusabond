@@ -1,4 +1,4 @@
-import identitasList from "../../docs/IdentitasData";
+import identitasList from "../../docs/identitasData";
 
 const Identitas = () => {
   return (
