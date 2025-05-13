@@ -4,13 +4,12 @@ import { gsap } from "gsap";
 import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import { Euler, Group, Vector3 } from "three";
-import { usePlay } from "../contexts/Play";
-import { fadeOnBeforeCompile } from "../utils/fadeMaterial";
 import { Airplane } from "./Airplane";
 import { Background } from "./Background";
 import { Cloud } from "./Cloud";
 import { Speed } from "./Speed";
 import { TextSection } from "./TextSection";
+import { usePlay } from "../../../context/play";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
@@ -275,7 +274,7 @@ We have a wide range of beverages!`,
   const scroll = useScroll();
   const lastScroll = useRef(0);
 
-  const { play, setHasScroll, end, setEnd } = usePlay();
+  const { play, setHasScroll, end, setEnd } = usePlay ();
 
   useFrame((_state, delta) => {
     if (window.innerWidth > window.innerHeight) {
@@ -428,7 +427,7 @@ We have a wide range of beverages!`,
 
   const tl = useRef();
   const backgroundColors = useRef({
-    colorA: "#3535cc",
+    colorA: "#2A4B32",
     colorB: "#abaadd",
   });
 
@@ -544,7 +543,6 @@ We have a wide range of beverages!`,
               ref={lineMaterialRef}
               transparent
               envMapIntensity={2}
-              onBeforeCompile={fadeOnBeforeCompile}
             />
           </mesh>
         </group>

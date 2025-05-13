@@ -1,22 +1,11 @@
 import { ScrollControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { EffectComposer, Noise } from "@react-three/postprocessing";
-import { useMemo } from "react";
 import { usePlay } from "../context/play";
 import { Overlay } from "../components/models/components/Overlay";
 import { Experience } from "../components/models/components/Experience";
 
-function App() {
+function Scene() {
   const { play, end } = usePlay();
-
-  const effects = useMemo(
-    () => (
-      <EffectComposer>
-        <Noise opacity={0.08} />
-      </EffectComposer>
-    ),
-    []
-  );
 
   return (
     <>
@@ -38,11 +27,10 @@ function App() {
         >
           <Experience />
         </ScrollControls>
-        {effects}
       </Canvas>
       <Overlay />
     </>
   );
 }
 
-export default App;
+export default Scene;
