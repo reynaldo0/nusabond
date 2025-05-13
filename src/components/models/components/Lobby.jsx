@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useProgress } from "@react-three/drei";
-import { usePlay } from "../../../context/play";
+import { usePlay } from "../../../context/Play";
 import { useGreetingContext } from "../../../context/GreetingContext";
 
 const Lobby = () => {

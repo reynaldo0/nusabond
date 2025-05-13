@@ -1,5 +1,5 @@
 import { useProgress } from "@react-three/drei";
-import { usePlay } from "../../../context/play";
+import { usePlay } from "../../../context/Play";
 
 export const Overlay = () => {
   const { progress } = useProgress();

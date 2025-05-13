@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import { Home } from "./pages/Home";
 import About from "./pages/About";
 import Scene from "./pages/Scene";
-import { PlayProvider } from "./context/play";
+import { PlayProvider } from "./context/Play";
 
 function App() {
   return (
