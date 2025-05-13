@@ -1,8 +1,8 @@
 import { ScrollControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { usePlay } from "../context/Play";
-import { Overlay } from "../components/models/components/Overlay";
-import { Experience } from "../components/models/components/Experience";
+import { Overlay } from "../models/Overlay";
+import { Experience } from "../models/Experience";
 
 function Scene() {
   const { play, end } = usePlay();

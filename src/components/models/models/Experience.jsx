@@ -9,7 +9,7 @@ import { Background } from "./Background";
 import { Cloud } from "./Cloud";
 import { Speed } from "./Speed";
 import { TextSection } from "./TextSection";
-import { usePlay } from "../../../context/Play";
+import { usePlay } from "../context/Play";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
