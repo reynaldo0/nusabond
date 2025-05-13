@@ -6,7 +6,7 @@ const Hero = () => {
     <section>
       <div className="container mx-auto relative">
         {/* Decorative Batik Illustrations */}
-        <div className="absolute md:scale-75 md:-left-20 md:top-40">
+        <div className="absolute hidden md:block md:scale-75 md:-left-20 md:top-40">
           <img src="assets/illustrator/batik/batik.svg" alt="Batik" />
         </div>
         <div className="absolute hidden md:block md:left-20 md:bottom-40">
@@ -42,7 +42,7 @@ const Hero = () => {
 
         {/* Main Hero Content */}
         <section>
-          <div className="relative z-10 flex flex-col-reverse md:flex-row-reverse items-center justify-between px-6 md:px-10 py-10 md:py-0">
+          <div className="relative z-10 flex flex-col-reverse lg:flex-row-reverse items-center justify-between px-8 md:px-10 xl:px-20 py-12 md:py-10 lg:pt-10 lg:pb-0 md gap-y-6 lg:gap-y-0 lg:gap-x-6 xl:gap-x-0">
             {/* Text Section */}
             <div className="flex flex-col items-start text-black max-w-xl">
               {/* Mobile Title */}
@@ -52,11 +52,9 @@ const Hero = () => {
                   data-aos="fade-up"
                   data-aos-duration="800"
                 >
-                  Kami membawa visi untuk menjadi gerakan utama
-                  <br className="hidden md:block" />
-                  dalam melestarikan
+                  Kami membawa visi untuk menjadi gerakan utama dalam melestarikan
                   <span className="relative pl-1">
-                    budaya Indonesia
+                    Budaya Indonesia
                     <span className="absolute inset-0 -z-50 translate-y-4 translate-x-2 bg-[#FBC740] mb-4"></span>
                   </span>
                 </h1>
@@ -64,7 +62,7 @@ const Hero = () => {
 
               {/* Description */}
               <p
-                className="text-base md:text-2xl"
+                className="pt-5 md:pt-0text-base md:text-xl xl:text-2xl"
                 data-aos="fade-up"
                 data-aos-duration="900"
               >
