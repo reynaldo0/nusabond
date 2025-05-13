@@ -28,4 +28,4 @@ export function Cloud({ sceneOpacity, ...props }) {
   );
 }
 
-useGLTF.preload("./models/cloud/model.gltf");
+useGLTF.preload("/models/cloud.gltf");
