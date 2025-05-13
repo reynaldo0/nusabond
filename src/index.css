@@ -166,7 +166,7 @@ body {
 }
 
 .intro--disappear .logo {
-  top: 42px;
+  top: 85px;
   transform: scale(0.25);
   transform-origin: center top;
 }
