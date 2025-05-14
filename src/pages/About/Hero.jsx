@@ -42,9 +42,9 @@ const Hero = () => {
 
         {/* Main Hero Content */}
         <section>
-          <div className="relative z-10 flex flex-col-reverse lg:flex-row-reverse items-center justify-between px-8 md:px-10 xl:px-20 py-12 md:py-10 lg:pt-10 lg:pb-0 md gap-y-6 lg:gap-y-0 lg:gap-x-6 xl:gap-x-0">
+          <div className="relative z-10 flex flex-col-reverse lg:flex-row-reverse items-center justify-between px-8 md:px-24 lg:px-20 py-12 md:py-10 lg:pt-10 lg:pb-0 md gap-y-6 lg:gap-y-0 lg:gap-x-6 xl:gap-x-0">
             {/* Text Section */}
-            <div className="flex flex-col items-start text-black max-w-xl">
+            <div className="flex flex-col items-start text-black">
               {/* Mobile Title */}
               <div className="md:px-12">
                 <h1
@@ -62,7 +62,7 @@ const Hero = () => {
 
               {/* Description */}
               <p
-                className="pt-5 md:pt-0text-base md:text-xl xl:text-2xl"
+                className="pt-5 md:pt-0 text-base md:text-xl xl:text-2xl xl:max-w-xl"
                 data-aos="fade-up"
                 data-aos-duration="900"
               >
@@ -75,7 +75,7 @@ const Hero = () => {
               </p>
 
               <p
-                className="pt-5 md:pt-10 font-medium md:font-bold text-base md:text-xl"
+                className="pt-5 md:pt-10 font-medium md:font-bold text-base md:text-xl xl:text-2xl"
                 data-aos="fade-up"
                 data-aos-duration="1100"
               >

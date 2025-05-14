@@ -22,28 +22,28 @@ const Peta = () => {
 
       {/* Konten Utama */}
       <div
-        className="relative z-10 px-4 md:px-20 pt-16 md:pt-32 pb-20 flex flex-col-reverse md:flex-row-reverse gap-10 text-white"
+        className="relative z-10 px-8 md:px-24 lg:px-20 pt-16 lg:pt-32 pb-20 flex flex-col-reverse lg:flex-row-reverse justify-between text-white gap-y-10 lg:gap-x-10 items-center"
         data-aos="fade-up"
         data-aos-duration="800"
       >
         {/* Map Section */}
-        <div className="w-full md:w-3/5 flex flex-col items-center md:items-start">
+        <div className="w-full flex flex-col items-center lg:items-start">
           <div className="hidden md:block mb-4 animate-horizontal-bounce hover:scale-105 transition-transform duration-300">
             <span className="font-bold text-lg">
               Arahkan Kursor ke{" "}
               <span className="text-[#FBC740] text-xl">Daerah Anda</span>
             </span>
           </div>
-          <div className="w-full max-w-xl">
+          <div className="w-full">
             <Map />
           </div>
         </div>
 
         {/* Text Section */}
-        <div className="w-full md:w-2/5">
+        <div className="w-full">
           <div className="relative">
             <h1
-              className="text-2xl md:text-3xl font-bold mb-4 text-left"
+              className=" text-lg md:text-2xl xl:text-3xl font-bold mb-4 text-left"
               data-aos="fade-up"
               data-aos-duration="700"
             >
@@ -52,14 +52,14 @@ const Peta = () => {
               </div>
               Bondmates, yuk eksplor dan{" "}
               <span className="md:underline md:underline-offset-[15px] decoration-[#FBC740]">
-                kenali ragam budaya
+                kenali ragam budaya{" "}
               </span>
               <span className="md:mt-4 md:block underline underline-offset-8 md:no-underline decoration-[#FBC740]">
                 Indonesia!
               </span>
             </h1>
             <p
-              className="text-lg md:text-2xl leading-relaxed text-justify md:text-left"
+              className="text-base md:text-[20px] xl:text-xl leading-relaxed text-justify md:text-left"
               data-aos="fade-up"
               data-aos-duration="800"
             >
