@@ -1,6 +1,7 @@
 import { Text } from "@react-three/drei";
+import { Model } from "./components/ocean";
 
-export const TextSection = ({ title, subtitle, ...props }) => {
+export const TextSection = ({ title, subtitle, modelProps, ...props }) => {
   return (
     <group {...props}>
       {!!title && (
@@ -14,12 +15,9 @@ export const TextSection = ({ title, subtitle, ...props }) => {
           font={"/fonts/DMSerifDisplay-Regular.ttf"}
         >
           {title}
-          <meshStandardMaterial
-            color={"white"}
-          />
+          <meshStandardMaterial color={"white"} />
         </Text>
       )}
-
       <Text
         color="white"
         anchorX={"left"}
@@ -29,10 +27,9 @@ export const TextSection = ({ title, subtitle, ...props }) => {
         font={"/fonts/Inter-Regular.ttf"}
       >
         {subtitle}
-        <meshStandardMaterial
-          color={"white"}
-        />
+        <meshStandardMaterial color={"white"} />
       </Text>
+      <Model {...modelProps} />
     </group>
   );
 };

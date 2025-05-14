@@ -9,7 +9,7 @@ import { Background } from "./Background";
 import { Cloud } from "./Cloud";
 import { Speed } from "./Speed";
 import { TextSection } from "./TextSection";
-import { usePlay } from "../../../context/Play";
+import { usePlay } from "../context/Play";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
@@ -44,51 +44,68 @@ export const Experience = () => {
     return [
       {
         cameraRailDist: -1,
-        position: new Vector3(
+        position: new THREE.Vector3(
           curvePoints[1].x - 3,
           curvePoints[1].y,
           curvePoints[1].z
         ),
-        subtitle: `Welcome to Wawatmos,
-Have a seat and enjoy the ride!`,
+        subtitle: `Welcome to Wawatmos,\nHave a seat and enjoy the ride!`,
+        modelProps: {
+          position: new THREE.Vector3(-10, -2, -10),
+          scale: 1,
+          rotation: new THREE.Euler(0, Math.PI / 4, 0),
+        },
       },
       {
         cameraRailDist: 1.5,
-        position: new Vector3(
+        position: new THREE.Vector3(
           curvePoints[2].x + 2,
           curvePoints[2].y,
           curvePoints[2].z
         ),
         title: "Services",
-        subtitle: `Do you want a drink?
-We have a wide range of beverages!`,
+        subtitle: `Do you want a drink?\nWe have a wide range of beverages!`,
+        modelProps: {
+          position: new THREE.Vector3(8, -3, -15),
+          scale: 1.2,
+          rotation: new THREE.Euler(0, -Math.PI / 6, 0),
+        },
       },
       {
         cameraRailDist: -1,
-        position: new Vector3(
+        position: new THREE.Vector3(
           curvePoints[3].x - 3,
           curvePoints[3].y,
           curvePoints[3].z
         ),
         title: "Fear of flying?",
         subtitle: `Our flight attendants will help you have a great journey`,
+        modelProps: {
+          position: new THREE.Vector3(-12, -2.5, -20),
+          scale: 1,
+          rotation: new THREE.Euler(0, Math.PI / 3, 0),
+        },
       },
       {
         cameraRailDist: 1.5,
-        position: new Vector3(
+        position: new THREE.Vector3(
           curvePoints[4].x + 3.5,
           curvePoints[4].y,
           curvePoints[4].z - 12
         ),
         title: "Movies",
         subtitle: `We provide a large selection of medias, we highly recommend you Porco Rosso during the flight`,
+        modelProps: {
+          position: new THREE.Vector3(10, -3, -25),
+          scale: 1.5,
+          rotation: new THREE.Euler(0, -Math.PI / 4, 0),
+        },
       },
     ];
-  }, []);
+  }, [curvePoints]);
 
   const clouds = useMemo(
     () => [
-      // STARTING
       {
         position: new Vector3(-3.5, -3.2, -7),
       },
@@ -104,7 +121,6 @@ We have a wide range of beverages!`,
         scale: new Vector3(2.5, 2.5, 2.5),
         position: new Vector3(10, -1.2, -52),
       },
-      // FIRST POINT
       {
         scale: new Vector3(4, 4, 4),
         position: new Vector3(
@@ -148,7 +164,6 @@ We have a wide range of beverages!`,
           curvePoints[1].z - 22
         ),
       },
-      // SECOND POINT
       {
         scale: new Vector3(3, 3, 3),
         position: new Vector3(
@@ -174,7 +189,6 @@ We have a wide range of beverages!`,
         ),
         rotation: new Euler(Math.PI / 4, 0, Math.PI / 3),
       },
-      // THIRD POINT
       {
         scale: new Vector3(3, 3, 3),
         position: new Vector3(
@@ -210,7 +224,6 @@ We have a wide range of beverages!`,
         ),
         rotation: new Euler(0, Math.PI / 3, 0),
       },
-      // FOURTH POINT
       {
         scale: new Vector3(2, 2, 2),
         position: new Vector3(
@@ -237,7 +250,6 @@ We have a wide range of beverages!`,
         ),
         rotation: new Euler(Math.PI / 3, 0, Math.PI / 3),
       },
-      // FINAL
       {
         scale: new Vector3(3, 3, 3),
         position: new Vector3(
@@ -264,9 +276,8 @@ We have a wide range of beverages!`,
     const shape = new THREE.Shape();
     shape.moveTo(0, -0.08);
     shape.lineTo(0, 0.08);
-
     return shape;
-  }, [curve]);
+  }, []);
 
   const cameraGroup = useRef();
   const cameraRail = useRef();
@@ -274,15 +285,13 @@ We have a wide range of beverages!`,
   const scroll = useScroll();
   const lastScroll = useRef(0);
 
-  const { play, setHasScroll, end, setEnd } = usePlay ();
+  const { play, setHasScroll, end, setEnd } = usePlay();
 
   useFrame((_state, delta) => {
     if (window.innerWidth > window.innerHeight) {
-      // LANDSCAPE
       camera.current.fov = 30;
       camera.current.position.z = 5;
     } else {
-      // PORTRAIT
       camera.current.fov = 80;
       camera.current.position.z = 2;
     }
@@ -317,7 +326,6 @@ We have a wide range of beverages!`,
 
     let friction = 1;
     let resetCameraRail = true;
-    // LOOK TO CLOSE TEXT SECTIONS
     textSections.forEach((textSection) => {
       const distance = textSection.position.distanceTo(
         cameraGroup.current.position
@@ -339,13 +347,11 @@ We have a wide range of beverages!`,
       cameraRail.current.position.lerp(targetCameraRailPosition, delta);
     }
 
-    // CALCULATE LERPED SCROLL OFFSET
     let lerpedScrollOffset = THREE.MathUtils.lerp(
       lastScroll.current,
       scrollOffset,
       delta * friction
     );
-    // PROTECT BELOW 0 AND ABOVE 1
     lerpedScrollOffset = Math.min(lerpedScrollOffset, 1);
     lerpedScrollOffset = Math.max(lerpedScrollOffset, 0);
 
@@ -354,10 +360,7 @@ We have a wide range of beverages!`,
 
     const curPoint = curve.getPoint(lerpedScrollOffset);
 
-    // Follow the curve points
     cameraGroup.current.position.lerp(curPoint, delta * 24);
-
-    // Make the group look ahead on the curve
 
     const lookAtPoint = curve.getPoint(
       Math.min(lerpedScrollOffset + CURVE_AHEAD_CAMERA, 1)
@@ -375,8 +378,6 @@ We have a wide range of beverages!`,
       cameraGroup.current.position.clone().add(lookAt)
     );
 
-    // Airplane rotation
-
     const tangent = curve.getTangent(lerpedScrollOffset + CURVE_AHEAD_AIRPLANE);
 
     const nonLerpLookAt = new Group();
@@ -392,9 +393,8 @@ We have a wide range of beverages!`,
     angle = -Math.PI / 2 + angle;
 
     let angleDegrees = (angle * 180) / Math.PI;
-    angleDegrees *= 2.4; // stronger angle
+    angleDegrees *= 2.4;
 
-    // LIMIT PLANE ANGLE
     if (angleDegrees < 0) {
       angleDegrees = Math.max(angleDegrees, -AIRPLANE_MAX_ANGLE);
     }
@@ -402,7 +402,6 @@ We have a wide range of beverages!`,
       angleDegrees = Math.min(angleDegrees, AIRPLANE_MAX_ANGLE);
     }
 
-    // SET BACK ANGLE
     angle = (angleDegrees * Math.PI) / 180;
 
     const targetAirplaneQuaternion = new THREE.Quaternion().setFromEuler(
@@ -520,12 +519,9 @@ We have a wide range of beverages!`,
             </Float>
           </group>
         </group>
-        {/* TEXT */}
         {textSections.map((textSection, index) => (
           <TextSection {...textSection} key={index} />
         ))}
-
-        {/* LINE */}
         <group position-y={-2}>
           <mesh>
             <extrudeGeometry
@@ -546,13 +542,11 @@ We have a wide range of beverages!`,
             />
           </mesh>
         </group>
-
-        {/* CLOUDS */}
         {clouds.map((cloud, index) => (
           <Cloud sceneOpacity={sceneOpacity} {...cloud} key={index} />
         ))}
       </>
     ),
-    []
+    [clouds, curve, shape, textSections]
   );
 };
