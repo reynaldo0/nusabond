@@ -3,8 +3,8 @@ import identitasList from "../../docs/identitasData";
 const Identitas = () => {
   return (
     <section>
-      <div className="bg-white relative py-24">
-        <div className="absolute -top-10 md:-top-32 w-full">
+      <div className="bg-white relative py-18 md:py-24">
+        <div className="absolute -top-10 lg:-top-34 w-full">
           <img
             src="/illustrator/tantangan.svg"
             className="w-screen"
@@ -13,19 +13,19 @@ const Identitas = () => {
         </div>
 
         <h1
-          className="text-center md:pt-20 text-xl font-semibold text-gray-800 px-3 md:px-0"
+          className="text-center pt-10 md:pt-20 xl:pt-44 2xl:pt-80 text-lg md:text-2xl font-semibold text-gray-800 px-4 md:px-20 lg:px-18"
           data-aos="fade-up"
           data-aos-duration="700"
         >
           Bondmates, ini dia
           <br />
-          <span className="text-3xl font-bold">
+          <span className="text-2xl md:text-3xl xl:text-4xl font-bold">
             <span className="text-yellow-500">Upaya</span> Melestarikan
             Identitas Bangsa
           </span>
         </h1>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-10 mt-12 md:mx-36">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 lg:gap-10 mt-12 px-4 md:px-20 lg:px-18">
           {identitasList.map((item, index) => (
             <div
               key={index}
@@ -43,11 +43,12 @@ const Identitas = () => {
                     alt={item.title}
                   />
                 </div>
+
                 <div className="ml-10">
-                  <h2 className="text-xl font-semibold text-gray-800">
+                  <h2 className="text-lg md:text-2xl font-semibold text-gray-800">
                     {item.title}
                   </h2>
-                  <p className="text-gray-600 text-sm text-justify md:text-base">
+                  <p className="text-gray-600 text-base md:text-xl text-left mt-2">
                     {item.description}
                   </p>
                 </div>

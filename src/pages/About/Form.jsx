@@ -38,16 +38,16 @@ const Form = () => {
   };
 
   return (
-    <section className="bg-[#f5f8ec] relative min-h-screen py-24 flex justify-center items-center md:pb-52">
-      <div className="p-6 max-w-7xl flex flex-col-reverse md:flex-row md:gap-20 items-center">
+    <section className="bg-[#f5f8ec] relative min-h-screen py-24 flex lg:pb-40">
+      <div className="flex flex-col-reverse xl:flex-row xl:gap-20 items-center justify-between px-8 md:px-24 xl:px-20">
         {/* Form Section */}
-        <div className="space-y-6 flex-1 pt-16 md:px-10 md:pt-0">
+        <div className="space-y-6 flex-1 pt-16 xl:pt-0">
           <div className="px-4 py-3">
             <h1 className="font-bold text-3xl">
               Dari kamu untuk
               <span
                 ref={typedRef}
-                className="text-white bg-secondary-300 mx-1 md:px-2"
+                className="text-white bg-secondary-300 mx-1 lg:px-2"
               ></span>
             </h1>
             <p className="pt-2 text-base text-justify">
@@ -168,18 +168,22 @@ const Form = () => {
         </div>
 
         {/* Illustration Section */}
-        <div className="flex-1 flex justify-center items-center relative">
+        <div className="flex justify-center items-center relative">
           <div className="relative rounded-full w-full flex justify-center items-center">
             <img
               src="/illustrator/form.png"
               draggable="false"
               alt="Tari Nusantara"
-              className="w-80 md:w-[500px] h-auto object-contain"
+              className="w-80 md:w-[600px] h-auto object-contain"
             />
           </div>
           <div className="absolute top-4 left-4">
             <div className="w-6 h-6 border-[2px] border-gray-400 rounded-full"></div>
             <div className="w-4 h-4 border-[2px] border-gray-400 rounded-full mt-10"></div>
+          </div>
+          <div className="absolute bottom-4 right-4">
+            <div className="w-4 h-4 border-[2px] border-gray-400 rounded-full mb-10"></div>
+            <div className="w-6 h-6 border-[2px] border-gray-400 rounded-full"></div>
           </div>
         </div>
       </div>

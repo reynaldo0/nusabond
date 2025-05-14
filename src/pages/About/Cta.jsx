@@ -3,7 +3,7 @@ import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 
 const Cta = () => {
   return (
-    <section class="relative pb-20 md:pb-56">
+    <section class="relative pb-20 md:pb-28 lg:pb-40 xl:pb-80">
       <div class="absolute -bottom-2 w-full">
         <img
           src="/illustrator/wave/siluet.png"
@@ -12,7 +12,7 @@ const Cta = () => {
         />
       </div>
       <div class="-top-12 relative inset-0 flex justify-center items-center">
-        <div class="bg-white rounded-2xl shadow-lg w-full max-w-5xl h-auto mx-5 md:mx-32 flex flex-col sm:flex-row items-center justify-between px-6 py-4 md:py-8">
+        <div class="bg-white rounded-2xl shadow-lg w-full max-w-5xl h-auto mx-8 md:mx-24 lg:mx-20 flex flex-col sm:flex-row items-center justify-between px-6 py-4 md:py-8">
           {/* <!-- Teks di sebelah kiri --> */}
           <div class="text-center sm:text-left">
             <h1
