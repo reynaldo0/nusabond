@@ -43,7 +43,7 @@ const Peta = () => {
         <div className="w-full">
           <div className="relative">
             <h1
-              className=" text-lg md:text-2xl xl:text-3xl font-bold mb-4 text-left"
+              className="text-lg md:text-2xl xl:text-3xl font-bold mb-4 text-left"
               data-aos="fade-up"
               data-aos-duration="700"
             >
@@ -58,8 +58,9 @@ const Peta = () => {
                 Indonesia!
               </span>
             </h1>
+
             <p
-              className="text-base md:text-[20px] xl:text-xl leading-relaxed text-justify md:text-left"
+              className="text-base md:text-xl xl:text-2xl leading-relaxed text-justify md:text-left"
               data-aos="fade-up"
               data-aos-duration="800"
             >

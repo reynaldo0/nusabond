@@ -4,7 +4,7 @@ import GarudaScene from "../../components/models/GarudaScene";
 const Hero = () => {
   return (
     <section>
-      <div className="container mx-auto relative">
+      <div className="relative">
         {/* Decorative Batik Illustrations */}
         <div className="absolute hidden md:block md:scale-75 md:-left-20 md:top-40">
           <img src="assets/illustrator/batik/batik.svg" alt="Batik" />
@@ -25,7 +25,7 @@ const Hero = () => {
         {/* Desktop Title */}
         <div className="md:px-12 md:mt-24">
           <h1
-            className="text-center hidden sm:block text-xl md:text-3xl px-5 md:px-10 font-semibold"
+            className="text-center hidden sm:block text-lg md:text-2xl xl:text-3xl px-5 md:px-10 font-semibold"
             data-aos="fade-up"
             data-aos-duration="700"
           >
