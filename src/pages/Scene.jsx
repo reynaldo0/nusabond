@@ -1,15 +1,18 @@
 import { ScrollControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { usePlay } from "../context/Play";
 import { Overlay } from "../models/Overlay";
 import { Experience } from "../models/Experience";
+import { ModalProvider, useModal } from "../context/modal";
+import { usePlay } from "../context/Play";
+import { Modal } from "../models/Modal";
 
-function Scene() {
-  const { play, end } = usePlay();
+function SceneContent() {
+  const { play, end, isPaused, setIsPaused } = usePlay();
+  const { modalData, closeModal } = useModal();
 
   return (
     <>
-      <Canvas>
+      <Canvas style={{ zIndex: 0 }}>
         <color attach="background" args={["#ececec"]} />
         <ScrollControls
           pages={play && !end ? 20 : 0}
@@ -23,13 +26,36 @@ function Scene() {
             height: "auto",
             animation: "fadeIn 2.4s ease-in-out 1.2s forwards",
             opacity: 0,
+            zIndex: 0,
           }}
         >
           <Experience />
         </ScrollControls>
       </Canvas>
       <Overlay />
+      <Modal
+        isOpen={isPaused}
+        onClose={() => {
+          console.log("Modal closed");
+          setIsPaused(false);
+          closeModal();
+        }}
+        onContinue={() => {
+          console.log("Modal continued");
+          setIsPaused(false);
+          closeModal();
+        }}
+        islandName={modalData?.islandName || "Unknown Island"}
+      />
     </>
+  );
+}
+
+function Scene() {
+  return (
+    <ModalProvider>
+      <SceneContent />
+    </ModalProvider>
   );
 }
 

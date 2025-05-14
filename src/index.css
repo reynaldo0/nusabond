@@ -90,9 +90,6 @@
     display: none;
   }
   
-
-  @import url("https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter&display=swap");
-
 #root {
   width: 100vw;
   height: 100vh;
@@ -316,4 +313,14 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+/* Ensure the Three.js canvas has a lower z-index than the modal */
+canvas {
+  z-index: 0 !important;
+}
+
+/* Optional: Ensure the canvas container doesn't override z-index */
+.r3f-container {
+  z-index: 0 !important;
 }

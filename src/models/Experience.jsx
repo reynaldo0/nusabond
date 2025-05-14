@@ -1,7 +1,7 @@
 import { Float, PerspectiveCamera, useScroll } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { gsap } from "gsap";
-import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import { Euler, Group, Vector3 } from "three";
 import { Airplane } from "./Airplane";
@@ -10,6 +10,7 @@ import { Cloud } from "./Cloud";
 import { Speed } from "./Speed";
 import { TextSection } from "./TextSection";
 import { usePlay } from "../context/Play";
+import { useModal } from "../context/modal";
 
 const LINE_NB_POINTS = 1000;
 const CURVE_DISTANCE = 250;
@@ -19,6 +20,11 @@ const AIRPLANE_MAX_ANGLE = 35;
 const FRICTION_DISTANCE = 42;
 
 export const Experience = () => {
+  const { openModal, closeModal, modalData } = useModal();
+  const [currentIslandIndex, setCurrentIslandIndex] = useState(-1);
+  const { play, setHasScroll, end, setEnd, isPaused, setIsPaused } = usePlay();
+  const islandMaterials = useRef({});
+
   const curvePoints = useMemo(
     () => [
       new THREE.Vector3(0, 0, 0),
@@ -38,7 +44,7 @@ export const Experience = () => {
 
   const curve = useMemo(() => {
     return new THREE.CatmullRomCurve3(curvePoints, false, "catmullrom", 0.5);
-  }, []);
+  }, [curvePoints]);
 
   const textSections = useMemo(() => {
     return [
@@ -50,11 +56,14 @@ export const Experience = () => {
           curvePoints[1].z
         ),
         subtitle: `Welcome to Wawatmos,\nHave a seat and enjoy the ride!`,
+        modelType: "island1",
         modelProps: {
           position: new THREE.Vector3(-10, -2, -10),
           scale: 1,
           rotation: new THREE.Euler(0, Math.PI / 4, 0),
         },
+        islandName: "Island 1",
+        scrollThreshold: 0.2,
       },
       {
         cameraRailDist: 1.5,
@@ -65,11 +74,14 @@ export const Experience = () => {
         ),
         title: "Services",
         subtitle: `Do you want a drink?\nWe have a wide range of beverages!`,
+        modelType: "island2",
         modelProps: {
           position: new THREE.Vector3(8, -3, -15),
           scale: 1.2,
           rotation: new THREE.Euler(0, -Math.PI / 6, 0),
         },
+        islandName: "Island 2",
+        scrollThreshold: 0.4,
       },
       {
         cameraRailDist: -1,
@@ -80,11 +92,14 @@ export const Experience = () => {
         ),
         title: "Fear of flying?",
         subtitle: `Our flight attendants will help you have a great journey`,
+        modelType: "island3",
         modelProps: {
           position: new THREE.Vector3(-12, -2.5, -20),
           scale: 1,
           rotation: new THREE.Euler(0, Math.PI / 3, 0),
         },
+        islandName: "Island 3",
+        scrollThreshold: 0.6,
       },
       {
         cameraRailDist: 1.5,
@@ -95,23 +110,22 @@ export const Experience = () => {
         ),
         title: "Movies",
         subtitle: `We provide a large selection of medias, we highly recommend you Porco Rosso during the flight`,
+        modelType: "island4",
         modelProps: {
           position: new THREE.Vector3(10, -3, -25),
           scale: 1.5,
           rotation: new THREE.Euler(0, -Math.PI / 4, 0),
         },
+        islandName: "Island 4",
+        scrollThreshold: 0.8,
       },
     ];
   }, [curvePoints]);
 
   const clouds = useMemo(
     () => [
-      {
-        position: new Vector3(-3.5, -3.2, -7),
-      },
-      {
-        position: new Vector3(3.5, -4, -10),
-      },
+      { position: new Vector3(-3.5, -3.2, -7) },
+      { position: new Vector3(3.5, -4, -10) },
       {
         scale: new Vector3(4, 4, 4),
         position: new Vector3(-18, 0.2, -68),
@@ -269,7 +283,7 @@ export const Experience = () => {
         rotation: new Euler(Math.PI / 4, Math.PI / 6, 0),
       },
     ],
-    []
+    [curvePoints]
   );
 
   const shape = useMemo(() => {
@@ -284,8 +298,66 @@ export const Experience = () => {
   const camera = useRef();
   const scroll = useScroll();
   const lastScroll = useRef(0);
+  const airplane = useRef();
 
-  const { play, setHasScroll, end, setEnd } = usePlay();
+  const tl = useRef();
+  const backgroundColors = useRef({
+    colorA: "#2A4B32",
+    colorB: "#abaadd",
+  });
+  const planeInTl = useRef();
+  const planeOutTl = useRef();
+
+  useLayoutEffect(() => {
+    tl.current = gsap.timeline();
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#6f35cc",
+      colorB: "#ffad30",
+    });
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#424242",
+      colorB: "#ffcc00",
+    });
+    tl.current.to(backgroundColors.current, {
+      duration: 1,
+      colorA: "#81318b",
+      colorB: "#55ab8f",
+    });
+    tl.current.pause();
+
+    planeInTl.current = gsap.timeline();
+    planeInTl.current.pause();
+    planeInTl.current.from(airplane.current.position, {
+      duration: 3,
+      z: 5,
+      y: -2,
+    });
+
+    planeOutTl.current = gsap.timeline();
+    planeOutTl.current.pause();
+    planeOutTl.current.to(
+      airplane.current.position,
+      { duration: 10, z: -250, y: 10 },
+      0
+    );
+    planeOutTl.current.to(
+      cameraRail.current.position,
+      { duration: 8, y: 12 },
+      0
+    );
+    planeOutTl.current.to(airplane.current.position, {
+      duration: 1,
+      z: -1000,
+    });
+  }, []);
+
+  useEffect(() => {
+    if (play) {
+      planeInTl.current.play();
+    }
+  }, [play]);
 
   useFrame((_state, delta) => {
     if (window.innerWidth > window.innerHeight) {
@@ -318,30 +390,76 @@ export const Experience = () => {
 
     lineMaterialRef.current.opacity = sceneOpacity.current;
 
-    if (end) {
+    if (end || isPaused) {
       return;
     }
 
     const scrollOffset = Math.max(0, scroll.offset);
 
-    let friction = 1;
-    let resetCameraRail = true;
-    textSections.forEach((textSection) => {
-      const distance = textSection.position.distanceTo(
-        cameraGroup.current.position
-      );
+    let shouldPause = false;
+    textSections.forEach((textSection, index) => {
+      const threshold = textSection.scrollThreshold;
+      const isInRange =
+        scrollOffset >= threshold - 0.05 && scrollOffset <= threshold + 0.05;
 
-      if (distance < FRICTION_DISTANCE) {
-        friction = Math.max(distance / FRICTION_DISTANCE, 0.1);
-        const targetCameraRailPosition = new Vector3(
-          (1 - distance / FRICTION_DISTANCE) * textSection.cameraRailDist,
-          0,
-          0
-        );
-        cameraRail.current.position.lerp(targetCameraRailPosition, delta);
-        resetCameraRail = false;
+      if (isInRange && currentIslandIndex !== index) {
+        shouldPause = true;
+        setIsPaused(true);
+        setCurrentIslandIndex(index);
+        console.log("Opening modal for:", textSection.islandName, index);
+        openModal(textSection.islandName, index);
+
+        const material = islandMaterials.current[index];
+        if (material) {
+          gsap.to(material, {
+            emissiveIntensity: 0.5,
+            duration: 0.5,
+          });
+        }
+
+        const islandPos = textSection.modelProps.position;
+        gsap.to(camera.current.position, {
+          x: islandPos.x,
+          y: islandPos.y + 2,
+          z: islandPos.z + 5,
+          duration: 1,
+        });
       }
     });
+
+    Object.keys(islandMaterials.current).forEach((key) => {
+      const idx = parseInt(key);
+      if (idx !== currentIslandIndex) {
+        const material = islandMaterials.current[idx];
+        if (material) {
+          gsap.to(material, {
+            emissiveIntensity: 0,
+            duration: 0.5,
+          });
+        }
+      }
+    });
+
+    if (!shouldPause && isPaused) {
+      setIsPaused(false);
+      console.log("Closing modal");
+      closeModal();
+      const curPoint = curve.getPoint(scrollOffset);
+      gsap.to(camera.current.position, {
+        x: curPoint.x,
+        y: curPoint.y,
+        z: curPoint.z + 5,
+        duration: 1,
+      });
+    }
+
+    if (isPaused) {
+      return;
+    }
+
+    let friction = 1;
+    let resetCameraRail = true;
+
     if (resetCameraRail) {
       const targetCameraRailPosition = new Vector3(0, 0, 0);
       cameraRail.current.position.lerp(targetCameraRailPosition, delta);
@@ -422,77 +540,12 @@ export const Experience = () => {
     }
   });
 
-  const airplane = useRef();
-
-  const tl = useRef();
-  const backgroundColors = useRef({
-    colorA: "#2A4B32",
-    colorB: "#abaadd",
-  });
-
-  const planeInTl = useRef();
-  const planeOutTl = useRef();
-
-  useLayoutEffect(() => {
-    tl.current = gsap.timeline();
-
-    tl.current.to(backgroundColors.current, {
-      duration: 1,
-      colorA: "#6f35cc",
-      colorB: "#ffad30",
-    });
-    tl.current.to(backgroundColors.current, {
-      duration: 1,
-      colorA: "#424242",
-      colorB: "#ffcc00",
-    });
-    tl.current.to(backgroundColors.current, {
-      duration: 1,
-      colorA: "#81318b",
-      colorB: "#55ab8f",
-    });
-
-    tl.current.pause();
-
-    planeInTl.current = gsap.timeline();
-    planeInTl.current.pause();
-    planeInTl.current.from(airplane.current.position, {
-      duration: 3,
-      z: 5,
-      y: -2,
-    });
-
-    planeOutTl.current = gsap.timeline();
-    planeOutTl.current.pause();
-
-    planeOutTl.current.to(
-      airplane.current.position,
-      {
-        duration: 10,
-        z: -250,
-        y: 10,
-      },
-      0
-    );
-    planeOutTl.current.to(
-      cameraRail.current.position,
-      {
-        duration: 8,
-        y: 12,
-      },
-      0
-    );
-    planeOutTl.current.to(airplane.current.position, {
-      duration: 1,
-      z: -1000,
-    });
-  }, []);
-
   useEffect(() => {
-    if (play) {
-      planeInTl.current.play();
+    console.log("isPaused:", isPaused, "modalData:", modalData);
+    if (isPaused && modalData === null) {
+      console.warn("modalData is null while isPaused is true");
     }
-  }, [play]);
+  }, [isPaused, modalData]);
 
   return useMemo(
     () => (
@@ -520,7 +573,13 @@ export const Experience = () => {
           </group>
         </group>
         {textSections.map((textSection, index) => (
-          <TextSection {...textSection} key={index} />
+          <TextSection
+            {...textSection}
+            key={index}
+            onMaterialLoaded={(material) => {
+              islandMaterials.current[index] = material;
+            }}
+          />
         ))}
         <group position-y={-2}>
           <mesh>

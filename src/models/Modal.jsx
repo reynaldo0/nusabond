@@ -1,75 +1,78 @@
-import { usePlay } from "../context/Play";
+import React from "react";
 
-export const Modal = () => {
-  const { isModalOpen, setIsModalOpen, modalContent } = usePlay();
-
-  if (!isModalOpen) return null;
-
-  const handleClose = () => {
-    console.log("Modal close clicked");
-    setIsModalOpen(false);
-  };
+export const Modal = ({ isOpen, onClose, onContinue, islandName }) => {
+  if (!isOpen) return null;
 
   return (
     <div
       style={{
         position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        inset: 0,
         background: "rgba(0, 0, 0, 0.5)",
         display: "flex",
-        justifyContent: "center",
         alignItems: "center",
-        zIndex: 1000,
+        justifyContent: "center",
+        zIndex: 99999,
+        pointerEvents: "auto",
       }}
-      onClick={handleClose}
     >
       <div
         style={{
           background: "white",
-          padding: "24px",
           borderRadius: "8px",
+          padding: "24px",
           maxWidth: "400px",
           width: "100%",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
+          boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+          pointerEvents: "auto",
         }}
-        onClick={(e) => e.stopPropagation()}
       >
-        {modalContent?.title && (
-          <h2
-            style={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              marginBottom: "16px",
-            }}
-          >
-            {modalContent.title}
-          </h2>
-        )}
-        <p
+        <h2
           style={{
-            color: "#4B5563",
-            marginBottom: "24px",
-            whiteSpace: "pre-line",
+            fontSize: "1.25rem",
+            fontWeight: "bold",
+            marginBottom: "16px",
           }}
         >
-          {modalContent?.subtitle}
+          Explore Island
+        </h2>
+        <p style={{ marginBottom: "16px" }}>
+          Ingin menjelajahi pulau {islandName}?
         </p>
-        <button
-          onClick={handleClose}
-          style={{
-            background: "#3B82F6",
-            color: "white",
-            padding: "8px 16px",
-            borderRadius: "4px",
-            cursor: "pointer",
-            border: "none",
-          }}
+        <div
+          style={{ display: "flex", justifyContent: "flex-end", gap: "16px" }}
         >
-          Close
-        </button>
+          <button
+            onClick={onContinue}
+            style={{
+              padding: "8px 16px",
+              background: "#d1d5db",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            onMouseOver={(e) => (e.target.style.background = "#9ca3af")}
+            onMouseOut={(e) => (e.target.style.background = "#d1d5db")}
+          >
+            Lanjutkan
+          </button>
+          <button
+            onClick={() => {
+              console.log(`Jelajahi ${islandName}`);
+              onClose();
+            }}
+            style={{
+              padding: "8px 16px",
+              background: "#3b82f6",
+              color: "white",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+            onMouseOver={(e) => (e.target.style.background = "#2563eb")}
+            onMouseOut={(e) => (e.target.style.background = "#3b82f6")}
+          >
+            Jelajahi
+          </button>
+        </div>
       </div>
     </div>
   );

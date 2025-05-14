@@ -1,17 +1,16 @@
-import { useRef } from "react";
+import { forwardRef } from "react";
 import { useGLTF } from "@react-three/drei";
 
-export function Model(props) {
-  const group = useRef();
+export const Island4 = forwardRef(({ onClick, ...props }, ref) => {
   const { nodes, materials } = useGLTF("/models/ocean.glb");
 
   const handleClick = (e) => {
-    console.log("Model clicked");
-    if (props.onClick) props.onClick(e);
+    console.log("Island1 clicked");
+    if (onClick) onClick(e);
   };
 
   return (
-    <group ref={group} {...props} dispose={null} onClick={handleClick}>
+    <group ref={ref} {...props} dispose={null} onClick={handleClick}>
       <group name="Scene">
         <mesh
           name="Fish3"
@@ -143,6 +142,6 @@ export function Model(props) {
       </group>
     </group>
   );
-}
+});
 
-useGLTF.preload("/models/ocean_malem.glb");
+useGLTF.preload("/models/ocean.glb");
