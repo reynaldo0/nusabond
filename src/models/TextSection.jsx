@@ -2,9 +2,9 @@ import { Text } from "@react-three/drei";
 import { useEffect, useRef, forwardRef } from "react";
 import * as THREE from "three";
 import { Island1 } from "./components/Island1";
-import { Island2 } from "./components/island2";
-import { Island3 } from "./components/island3";
 import { Island4 } from "./components/Island4";
+import { Island2 } from "./components/Island2";
+import { Island3 } from "./components/Island3";
 
 export const TextSection = forwardRef(
   (
