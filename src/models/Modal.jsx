@@ -43,7 +43,10 @@ export const Modal = ({ isOpen, onClose, onContinue, islandName }) => {
           style={{ display: "flex", justifyContent: "flex-end", gap: "16px" }}
         >
           <button
-            onClick={onContinue}
+            onClick={() => {
+              console.log("Modal continued via Lanjutkan");
+              onContinue(); // Trigger the onContinue handler
+            }}
             style={{
               padding: "8px 16px",
               background: "#d1d5db",
@@ -58,7 +61,7 @@ export const Modal = ({ isOpen, onClose, onContinue, islandName }) => {
           <button
             onClick={() => {
               console.log(`Jelajahi ${islandName}`);
-              onClose();
+              onClose(); // Trigger the onClose handler
             }}
             style={{
               padding: "8px 16px",

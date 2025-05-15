@@ -24,6 +24,8 @@ export const Experience = () => {
   const [currentIslandIndex, setCurrentIslandIndex] = useState(-1);
   const { play, setHasScroll, end, setEnd, isPaused, setIsPaused } = usePlay();
   const islandMaterials = useRef({});
+  const previousCameraPosition = useRef(new THREE.Vector3(0, 0, 5)); // Initialize with default position
+  const isRestoringCamera = useRef(false); // Flag to prevent useFrame interference during restoration
 
   const curvePoints = useMemo(
     () => [
@@ -302,8 +304,8 @@ export const Experience = () => {
 
   const tl = useRef();
   const backgroundColors = useRef({
-    colorA: "#2A4B32",
-    colorB: "#abaadd",
+      colorA: "#1a237e",
+      colorB: "#000051",
   });
   const planeInTl = useRef();
   const planeOutTl = useRef();
@@ -312,18 +314,18 @@ export const Experience = () => {
     tl.current = gsap.timeline();
     tl.current.to(backgroundColors.current, {
       duration: 1,
-      colorA: "#6f35cc",
-      colorB: "#ffad30",
+      colorA: "#63E2FE",
+      colorB: "#FFFFFF",
     });
     tl.current.to(backgroundColors.current, {
       duration: 1,
-      colorA: "#424242",
-      colorB: "#ffcc00",
+      colorA: "#FF7922",
+      colorB: "#FFFFFF",
     });
     tl.current.to(backgroundColors.current, {
       duration: 1,
-      colorA: "#81318b",
-      colorB: "#55ab8f",
+      colorA: "#1a237e",
+      colorB: "#000051",
     });
     tl.current.pause();
 
@@ -390,12 +392,13 @@ export const Experience = () => {
 
     lineMaterialRef.current.opacity = sceneOpacity.current;
 
-    if (end || isPaused) {
-      return;
+    if (end || isPaused || isRestoringCamera.current) {
+      return; // Skip useFrame updates during pause or restoration
     }
 
     const scrollOffset = Math.max(0, scroll.offset);
 
+    // Check for text appearance and pause immediately
     let shouldPause = false;
     textSections.forEach((textSection, index) => {
       const threshold = textSection.scrollThreshold;
@@ -406,7 +409,19 @@ export const Experience = () => {
         shouldPause = true;
         setIsPaused(true);
         setCurrentIslandIndex(index);
-        console.log("Opening modal for:", textSection.islandName, index);
+        console.log(
+          "Text appeared for:",
+          textSection.islandName,
+          index,
+          "Scroll offset:",
+          scrollOffset,
+          "Camera position:",
+          camera.current.position
+        );
+
+        // Store the current camera position
+        previousCameraPosition.current.copy(camera.current.position);
+
         openModal(textSection.islandName, index);
 
         const material = islandMaterials.current[index];
@@ -416,14 +431,6 @@ export const Experience = () => {
             duration: 0.5,
           });
         }
-
-        const islandPos = textSection.modelProps.position;
-        gsap.to(camera.current.position, {
-          x: islandPos.x,
-          y: islandPos.y + 2,
-          z: islandPos.z + 5,
-          duration: 1,
-        });
       }
     });
 
@@ -442,19 +449,29 @@ export const Experience = () => {
 
     if (!shouldPause && isPaused) {
       setIsPaused(false);
-      console.log("Closing modal");
+      console.log(
+        "Closing modal, restoring camera to:",
+        previousCameraPosition.current
+      );
       closeModal();
-      const curPoint = curve.getPoint(scrollOffset);
+      isRestoringCamera.current = true; // Pause useFrame updates
+
+      // Restore the camera to its previous position
       gsap.to(camera.current.position, {
-        x: curPoint.x,
-        y: curPoint.y,
-        z: curPoint.z + 5,
+        x: previousCameraPosition.current.x,
+        y: previousCameraPosition.current.y,
+        z: previousCameraPosition.current.z,
         duration: 1,
+        ease: "power2.inOut",
+        onComplete: () => {
+          isRestoringCamera.current = false;
+          console.log("Camera restored to:", camera.current.position);
+        },
       });
     }
 
-    if (isPaused) {
-      return;
+    if (shouldPause || isPaused) {
+      return; // Stop camera movement immediately when text appears
     }
 
     let friction = 1;
