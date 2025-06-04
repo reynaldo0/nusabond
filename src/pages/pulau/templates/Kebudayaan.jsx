@@ -56,8 +56,9 @@ const Kebudayaan = ({ onSlideChange }) => {
           </div>
         </div>
       </div>
-      <div class="absolute -bottom-2 w-screen">
-        <img src={currentPulau?.decorations?.wave} alt="" class="w-full" />
+
+      <div class="absolute -bottom-2 w-full">
+        <img src="/illustrator/wave/slider.png" alt="" class="w-screen" />
       </div>
 
       <div
@@ -72,7 +73,7 @@ const Kebudayaan = ({ onSlideChange }) => {
         data-aos="fade-up"
         data-aos-duration="900"
       >
-        {currentPulau?.title || "Pulau"}
+        {currentPulau?.page}
       </div>
 
       <div className="max-w-7xl px-5 mx-auto relative py-20 md:pb-56 overflow-x-hidden">
@@ -119,7 +120,7 @@ const Kebudayaan = ({ onSlideChange }) => {
               >
                 <img
                   src={item.src}
-                  alt={item.alt}
+                  alt={item.title}
                   className="rounded-lg shadow-lg w-full cursor-pointer"
                   onClick={() => {
                     swiperRef.current.slideToLoop(index);

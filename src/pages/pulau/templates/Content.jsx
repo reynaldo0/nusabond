@@ -22,7 +22,7 @@ const Content = ({ current }) => {
           <div className="relative inline-block">
             <span className="absolute inset-0 translate-y-2 translate-x-3 bg-[#A6AC8A] rounded"></span>
             <h2 className="relative text-white text-lg font-bold">
-              {current.alt}
+              {current.title}
             </h2>
           </div>
         </div>
