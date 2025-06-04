@@ -4,7 +4,7 @@ const Hero = () => {
   return (
     <div
       class="relative h-screen w-full bg-cover bg-center sm:bg-top md:bg-center"
-      style="background-image: url('assets/hero/jawa.png')"
+      style={{backgroundImage: "url('assets/hero/jawa.png')"}}
       id="hero"
     >
       <div class="absolute inset-0 bg-primary-100 opacity-65 pointer-events-none"></div>
