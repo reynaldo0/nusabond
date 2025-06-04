@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faMapMarkerAlt } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -87,44 +88,49 @@ const Footer = () => {
                     <div class="lg:min-w-[120px] max-lg:min-w-[100px]">
                       <ul>
                         <li class="py-1 rounded relative group">
-                          <a
+                          <Link
+                            to={"/pulau-sumatera"}
                             href="sumatera.html"
                             class="block rounded px-2 py-1 text-sm transition-all duration-300 text-primary-200 hover:text-primary-400 before:absolute before:-bottom-1 before:left-0 before:h-[1px] before:w-full before:scale-x-0 before:bg-black before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
                           >
                             Sumatera
-                          </a>
+                          </Link>
                         </li>
                         <li class="py-1 rounded relative group">
-                          <a
+                          <Link
+                            to={"/pulau-jawa"}
                             href="#"
                             class="block rounded px-2 py-1 text-sm transition-all duration-300 text-primary-200 hover:text-primary-400 before:absolute before:-bottom-1 before:left-0 before:h-[1px] before:w-full before:scale-x-0 before:bg-black before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
                           >
                             Jawa
-                          </a>
+                          </Link>
                         </li>
                         <li class="py-1 rounded relative group">
-                          <a
+                          <Link
+                            to={"/pulau-kalimantan"}
                             href="kalimantan.html"
                             class="block rounded px-2 py-1 text-sm transition-all duration-300 text-primary-200 hover:text-primary-400 before:absolute before:-bottom-1 before:left-0 before:h-[1px] before:w-full before:scale-x-0 before:bg-black before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
                           >
                             Kalimantan
-                          </a>
+                          </Link>
                         </li>
                         <li class="py-1 rounded relative group">
-                          <a
+                          <Link
+                            to={"/pulau-sulawesi"}
                             href="sulawesi.html"
                             class="block rounded px-2 py-1 text-sm transition-all duration-300 text-primary-200 hover:text-primary-400 before:absolute before:-bottom-1 before:left-0 before:h-[1px] before:w-full before:scale-x-0 before:bg-black before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
                           >
                             Sulawesi
-                          </a>
+                          </Link>
                         </li>
                         <li class="py-1 rounded relative group">
-                          <a
+                          <Link
+                            to={"/pulau-papua"}
                             href="papua.html"
                             class="block rounded px-2 py-1 text-sm transition-all duration-300 text-primary-200 hover:text-primary-400 before:absolute before:-bottom-1 before:left-0 before:h-[1px] before:w-full before:scale-x-0 before:bg-black before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
                           >
                             Papua
-                          </a>
+                          </Link>
                         </li>
                       </ul>
                     </div>

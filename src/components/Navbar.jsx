@@ -63,45 +63,49 @@ const Navbar = () => {
                 <div className="lg:min-w-[180px] max-lg:min-w-[140px]">
                   <ul>
                     <li className="max-lg:border-b py-1 rounded relative group">
-                      <a
-                        href="sumatera.html"
+                      <Link
+                        to={"/pulau-sumatera"}
                         className="block rounded px-2 py-1 transition-all duration-300 text-primary-200 hover:text-primary-400 before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:w-full before:scale-x-0 before:bg-black before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
                       >
                         Pulau Sumatera
-                      </a>
+                      </Link>
                     </li>
                     <li className="max-lg:border-b py-1 rounded relative group">
-                      <a
+                      <Link
+                        to={"/pulau-jawa"}
                         href="jawa.html"
                         className="block rounded px-2 py-1 transition-all duration-300 text-primary-200 hover:text-primary-400 before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:w-full before:scale-x-0 before:bg-black before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
                       >
                         Pulau Jawa
-                      </a>
+                      </Link>
                     </li>
 
                     <li className="max-lg:border-b py-1 rounded relative group">
-                      <a
+                      <Link
+                        to={"/pulau-kalimantan"}
                         href="kalimantan.html"
                         className="block rounded px-2 py-1 transition-all duration-300 text-primary-200 hover:text-primary-400 before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:w-full before:scale-x-0 before:bg-black before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
                       >
                         Pulau Kalimantan
-                      </a>
+                      </Link>
                     </li>
                     <li className="max-lg:border-b py-1 rounded relative group">
-                      <a
+                      <Link
+                        to={"/pulau-sulawesi"}
                         href="sulawesi.html"
                         className="block rounded px-2 py-1 transition-all duration-300 text-primary-200 hover:text-primary-400 before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:w-full before:scale-x-0 before:bg-black before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
                       >
                         Pulau Sulawesi
-                      </a>
+                      </Link>
                     </li>
                     <li className="max-lg:border-b py-1 rounded relative group">
-                      <a
+                      <Link
+                        to={"/pulau-papua"}
                         href="papua.html"
                         className="block rounded px-2 py-1 transition-all duration-300 text-primary-200 hover:text-primary-400 before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:w-full before:scale-x-0 before:bg-black before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
                       >
                         Pulau Papua
-                      </a>
+                      </Link>
                     </li>
                   </ul>
                 </div>
