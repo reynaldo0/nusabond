@@ -9,7 +9,7 @@ import Footer from "../components/Footer";
 
 const About = () => {
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Hero />
       <Peta />
       <Tantangan />
@@ -17,7 +17,7 @@ const About = () => {
       <Form />
       <Cta />
       <Footer />
-    </>
+    </div>
   );
 };
 
