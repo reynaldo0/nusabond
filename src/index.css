@@ -324,3 +324,13 @@ canvas {
 .r3f-container {
   z-index: 0 !important;
 }
+
+.slide-custom {
+  transform: scale(0.7);
+  transition: transform 0.3s ease;
+}
+
+.swiper-slide-active {
+  transform: scale(1.15) !important;
+  z-index: 10;
+}

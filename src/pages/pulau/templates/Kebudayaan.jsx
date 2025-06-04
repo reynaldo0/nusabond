@@ -1,15 +1,45 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useLocation } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import SwiperCore from "swiper";
+import "swiper/css";
+import "swiper/css/navigation";
+import { jawaBudaya } from "../../../docs/jawaBudaya";
+import { sumateraBudaya } from "../../../docs/sumateraBudaya";
+import { pulauHeroData } from "../../../docs/pulauHeroData";
+import {
+  faChevronLeft,
+  faChevronRight,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const Kebudayaan = () => {
+const Kebudayaan = ({ onSlideChange }) => {
+  const swiperRef = useRef(null);
+  const location = useLocation();
+
+  // Ambil path pertama dari URL, contoh "/jawa" → "jawa"
+  const path = location.pathname.split("/")[1] || "jawa";
+
+  const slug = path.replace("pulau-", "") || "jawa";
+  const currentPulau = pulauHeroData[slug];
+  // Pilih data berdasarkan path
+  const budayaList =
+    path === "pulau-jawa"
+      ? jawaBudaya
+      : path === "pulau-sumatera"
+      ? sumateraBudaya
+      : [];
+
   return (
     <section class="relative">
       <div class="w-full relative">
         {/* <!-- Kiri --> */}
         <div class="scale-75 md:scale-100">
           <img
-            src="assets/illustrator/kebudayaan/jawa/left.svg"
-            alt="Gunung Kiri"
-            class="max-w-full absolute -left-16 md:left-0 -top-60 md:-top-96 animate-move-left-right"
+            src={currentPulau?.decorations?.left?.src}
+            alt={currentPulau?.decorations?.left?.alt}
+            className={currentPulau?.decorations?.left?.className}
           />
           {/* <!-- sumber : https://www.flaticon.com/free-icon/gunungan_8029650?term=gunungan&page=1&position=1&origin=tag&related_id=8029650 --> */}
         </div>
@@ -18,16 +48,16 @@ const Kebudayaan = () => {
         <div class="relative">
           <div class="relative scale-75 md:scale-100">
             <img
-              src="assets/illustrator/kebudayaan/jawa/right.svg"
-              alt="Gunung Kanan"
-              class="max-w-full absolute -top-60 -right-[62px] md:right-0 md:-top-96 animate-move-left-right-right"
+              src={currentPulau?.decorations?.right?.src}
+              alt={currentPulau?.decorations?.right?.alt}
+              className={currentPulau?.decorations?.right?.className}
             />
             {/* <!-- sumber dayak : https://www.flaticon.com/free-icon/dayak_8029644?term=dayak&page=1&position=3&origin=search&related_id=8029644 --> */}
           </div>
         </div>
       </div>
       <div class="absolute -bottom-2 w-screen">
-        <img src="assets/illustrator/wave/slider.png" alt="" class="w-full" />
+        <img src={currentPulau?.decorations?.wave} alt="" class="w-full" />
       </div>
 
       <div
@@ -42,76 +72,72 @@ const Kebudayaan = () => {
         data-aos="fade-up"
         data-aos-duration="900"
       >
-        Pulau Jawa
+        {currentPulau?.title || "Pulau"}
       </div>
 
-      <div class="max-w-7xl px-5 mx-auto relative py-20 md:pb-56 overflow-x-hidden">
-        {/* <!-- Swiper Carousel --> */}
-        <div
-          class="swiper-container relative"
-          data-aos="fade-up"
-          data-aos-duration="1000"
-        >
-          <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img
-                src="assets/budaya/jawa/batik.png"
-                alt="Batik"
-                id="button-0"
-                class="rounded-lg shadow"
-              />
-              {/* <!-- sumber batik : https://pixabay.com/id/photos/batik-keahlian-budaya-tradisional-5697482/ --> */}
-            </div>
-            <div class="swiper-slide">
-              <img
-                src="assets/budaya/jawa/gamelan.png"
-                alt="Gamelan"
-                id="button-1"
-                class="rounded-lg shadow"
-              />
-              {/* <!-- sumber gamelan : https://pixabay.com/id/photos/gamelan-musik-tradisi-budaya-7839870/ --> */}
-            </div>
-            <div class="swiper-slide">
-              <img
-                src="assets/budaya/jawa/jaipongan.png"
-                alt="Jaipongan"
-                id="button-2"
-                class="rounded-lg shadow"
-              />
-              {/* <!-- sumber jaipongan : https://newsletter.kagumhotels.com/wp-content/uploads/2021/06/Jaipong-01.jpg --> */}
-            </div>
-            <div class="swiper-slide">
-              <img
-                src="assets/budaya/jawa/wayang.png"
-                alt="Wayang Golek"
-                id="button-3"
-                class="rounded-lg shadow"
-              />
-              {/* <!-- sumber wayang golek : https://indonesia.go.id/kategori/keanekaragaman-hayati/1113/wayang-golek-purwa-sunda-sebuah-peleburan-kreativitas?lang=1  --> */}
-            </div>
-            <div class="swiper-slide">
-              <img
-                src="assets/budaya/jawa/palang-pintu.png"
-                alt="Palang Pintu"
-                id="button-4"
-                class="rounded-lg shadow"
-              />
-              {/* <!-- sumber palang pintu : https://hypeabis.id/hypephoto/28062/palang-pintu-seni-yang-tak-lekang-dimakan-zaman --> */}
-            </div>
-            <div class="swiper-slide">
-              <img
-                src="assets/budaya/jawa/Lenong.png"
-                alt="Lenong"
-                id="button-5"
-                class="rounded-lg shadow"
-              />
-              {/* <!-- sumber Lenong : https://topnews62.com/posts/288858/mengenal-lebih-dekat-wisata-pertunjukan-lenong-betawi --> */}
-            </div>
-          </div>
+      <div className="max-w-7xl px-5 mx-auto relative py-20 md:pb-56 overflow-x-hidden">
+        <div data-aos="fade-up" data-aos-duration="1000" className="relative">
+          <Swiper
+            modules={[Navigation]}
+            spaceBetween={50}
+            slidesPerView={1}
+            centeredSlides={true}
+            loop={true}
+            navigation={{
+              prevEl: ".custom-prev",
+              nextEl: ".custom-next",
+            }}
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
 
-          {/* <!-- Custom Navigation --> */}
-          <button class="custom-prev -left-5 md:left-0">&lt;</button>
-          <button class="custom-next -right-5 md:right-0">&gt;</button>
+              // ⬅️ Ini kunci agar tombol custom dikenali
+              setTimeout(() => {
+                swiper.params.navigation.prevEl = ".custom-prev";
+                swiper.params.navigation.nextEl = ".custom-next";
+                swiper.navigation.destroy();
+                swiper.navigation.init();
+                swiper.navigation.update();
+              });
+            }}
+            onSlideChange={(swiper) => {
+              onSlideChange(swiper.realIndex);
+              document
+                .getElementById("content")
+                ?.scrollIntoView({ behavior: "smooth" });
+            }}
+            breakpoints={{
+              768: {
+                slidesPerView: 3,
+              },
+            }}
+            className="relative"
+          >
+            {budayaList.map((item, index) => (
+              <SwiperSlide
+                key={index}
+                className="my-10 transition-all duration-300"
+              >
+                <img
+                  src={item.src}
+                  alt={item.alt}
+                  className="rounded-lg shadow-lg w-full cursor-pointer"
+                  onClick={() => {
+                    swiperRef.current.slideToLoop(index);
+                    onSlideChange(index);
+                    document
+                      .getElementById("content")
+                      ?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                />
+              </SwiperSlide>
+            ))}
+            <button className="custom-prev cursor-pointer bg-transparent text-white border-2 border-white px-4 py-2 rounded-full absolute left-5 top-1/2 z-10 -translate-y-1/2 text-2xl font-bold">
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+            <button className="custom-next cursor-pointer bg-transparent text-white border-2 border-white px-4 py-2 rounded-full absolute right-5 top-1/2 z-10 -translate-y-1/2 text-2xl font-bold">
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+          </Swiper>
         </div>
       </div>
     </section>
