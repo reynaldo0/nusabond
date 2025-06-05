@@ -41,6 +41,27 @@ export const pulauHeroData = {
       },
     },
   },
+  kalimantan: {
+    page: "Pulau Kalimantan",
+    title: "Borneo",
+    description:
+      "Halo, Bondmates! Sekarang, kita akan jalan-jalan virtual ke Pulau Kalimantan, sebuah surga budaya yang kaya akan tradisi unik dan nilai kebersamaan. Siap untuk mengenal lebih dekat ragam tradisi yang penuh makna dari pulau ini? Yuk, kita eksplor bersama-sama!",
+    background: "/hero/kalimantan.png",
+    decorations: {
+      left: {
+        src: "/illustrator/kebudayaan/kalimantan/left.svg",
+        alt: "Ornamen Kiri",
+        className:
+          "max-w-full w-52 md:w-[400px] absolute -left-16 md:left-0 -top-32 md:-top-32 animate-move-left-right",
+      },
+      right: {
+        src: "/illustrator/kebudayaan/kalimantan/right.svg",
+        alt: "Ornamen Kanan",
+        className:
+          "max-w-full w-52 md:w-[400px] absolute -top-32 -right-[62px] md:right-0 md:-top-32 animate-move-left-right-right",
+      },
+    },
+  },
   sulawesi: {
     page: "Pulau Sulawesi",
     title: "Andalas",

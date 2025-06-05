@@ -11,7 +11,7 @@ function SceneContent() {
   const { modalData, closeModal } = useModal();
 
   return (
-    <>
+    <div className="root3d">
       <Canvas style={{ zIndex: 0 }}>
         <color attach="background" args={["#ececec"]} />
         <ScrollControls
@@ -47,7 +47,7 @@ function SceneContent() {
         }}
         islandName={modalData?.islandName || "Unknown Island"}
       />
-    </>
+    </div>
   );
 }
 

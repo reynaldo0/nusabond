@@ -8,12 +8,12 @@ import Hero from "./templates/Hero";
 const Sumatera = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   return (
-    <>
+    <div className="overflow-x-hidden">
       <Hero />
       <Kebudayaan onSlideChange={setCurrentIndex} />
       <Content current={sumateraBudaya[currentIndex]} />
       <Footer />
-    </>
+    </div>
   );
 };
 
