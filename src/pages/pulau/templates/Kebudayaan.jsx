@@ -2,7 +2,6 @@ import React, { useRef } from "react";
 import { useLocation } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import SwiperCore from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import { jawaBudaya } from "../../../docs/jawaBudaya";
@@ -15,6 +14,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { kalimantanBudaya } from "../../../docs/kalimantanBudaya";
 import { sulawesiBudaya } from "../../../docs/sulawesiBudaya";
+import { papuaBudaya } from "../../../docs/papuaBudaya";
 
 const Kebudayaan = ({ onSlideChange }) => {
   const swiperRef = useRef(null);
@@ -35,6 +35,8 @@ const Kebudayaan = ({ onSlideChange }) => {
       ? kalimantanBudaya
       : path === "pulau-sulawesi"
       ? sulawesiBudaya
+      : path === "pulau-papua"
+      ? papuaBudaya
       : [];
 
   return (

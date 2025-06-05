@@ -83,4 +83,25 @@ export const pulauHeroData = {
       },
     },
   },
+  papua: {
+    page: "Pulau Papua",
+    title: "Irian",
+    description:
+      "Halo, Bondmates! Sudah siap menjelajahi keajaiban budaya di Pulau Papua? Pulau terbesar di Indonesia ini tidak hanya kaya akan keindahan alam, tetapi juga memiliki tradisi yang memukau dan penuh makna. Setiap tradisi adalah cerminan dari nilai-nilai kehidupan yang dijaga turun-temurun oleh masyarakatnya. Yuk, kita lebih dekat mengenal keunikan budaya Papua!",
+    background: "/hero/papua.png",
+    decorations: {
+      left: {
+        src: "/illustrator/kebudayaan/papua/left.svg",
+        alt: "Ornamen Kiri",
+        className:
+          "max-w-full w-52 md:w-[400px] absolute -left-16 md:left-0 -top-32 md:-top-32 animate-move-left-right",
+      },
+      right: {
+        src: "/illustrator/kebudayaan/papua/right.svg",
+        alt: "Ornamen Kanan",
+        className:
+          "max-w-full w-52 md:w-[400px] absolute -top-32 -right-[62px] md:right-0 md:-top-32 animate-move-left-right-right",
+      },
+    },
+  },
 };

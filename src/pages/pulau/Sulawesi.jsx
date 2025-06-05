@@ -3,7 +3,6 @@ import Hero from "./templates/Hero";
 import Kebudayaan from "./templates/Kebudayaan";
 import Content from "./templates/Content";
 import Footer from "../../components/Footer";
-import { kalimantanBudaya } from "../../docs/kalimantanBudaya";
 import { sulawesiBudaya } from "../../docs/sulawesiBudaya";
 
 const Sulawesi = () => {
