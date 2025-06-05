@@ -1,5 +1,5 @@
 import { Text } from "@react-three/drei";
-import { useEffect, useRef, forwardRef } from "react";
+import { useEffect, useRef, forwardRef, useMemo } from "react";
 import * as THREE from "three";
 import { Island1 } from "./components/Island1";
 import { Island4 } from "./components/Island4";
@@ -8,7 +8,14 @@ import { Island3 } from "./components/Island3";
 
 export const TextSection = forwardRef(
   (
-    { title, subtitle, modelType, modelProps, onMaterialLoaded, ...props },
+    {
+      title,
+      subtitle,
+      modelType = "island1",
+      modelProps = {},
+      onMaterialLoaded,
+      ...props
+    },
     ref
   ) => {
     const islandRef = useRef();
@@ -18,17 +25,22 @@ export const TextSection = forwardRef(
         islandRef.current.traverse((child) => {
           if (child.isMesh && child.material) {
             const material = child.material;
-            material.emissive = new THREE.Color(0xaaaaaa); // Light gray
-            material.emissiveIntensity = 0; // Start off
-            if (onMaterialLoaded) {
-              onMaterialLoaded(material);
+            material.emissive = new THREE.Color(0xaaaaaa);
+            material.emissiveIntensity = 0;
+            if (material.map) {
+              material.map.encoding = THREE.sRGBEncoding;
+              material.map.flipY = false;
+              material.map.anisotropy = 16;
+              material.map.needsUpdate = true;
             }
+            material.needsUpdate = true;
+            if (onMaterialLoaded) onMaterialLoaded(material);
           }
         });
       }
-    }, [onMaterialLoaded]);
+    }, [modelType, JSON.stringify(modelProps), onMaterialLoaded]);
 
-    const getIslandModel = () => {
+    const islandModel = useMemo(() => {
       switch (modelType) {
         case "island1":
           return <Island1 {...modelProps} ref={islandRef} />;
@@ -41,11 +53,11 @@ export const TextSection = forwardRef(
         default:
           return <Island1 {...modelProps} ref={islandRef} />;
       }
-    };
+    }, [modelType, modelProps]);
 
     return (
       <group {...props} ref={ref}>
-        {!!title && (
+        {title && (
           <Text
             color="white"
             anchorX="left"
@@ -59,7 +71,7 @@ export const TextSection = forwardRef(
             <meshStandardMaterial color="white" />
           </Text>
         )}
-        {!!subtitle && (
+        {subtitle && (
           <Text
             color="white"
             anchorX="left"
@@ -72,7 +84,7 @@ export const TextSection = forwardRef(
             <meshStandardMaterial color="white" />
           </Text>
         )}
-        {getIslandModel()}
+        {islandModel}
       </group>
     );
   }

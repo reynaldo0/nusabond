@@ -1,4 +1,9 @@
-import { Float, PerspectiveCamera, useScroll } from "@react-three/drei";
+import {
+  Float,
+  PerspectiveCamera,
+  useScroll,
+  Environment,
+} from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { gsap } from "gsap";
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
@@ -24,8 +29,8 @@ export const Experience = () => {
   const [currentIslandIndex, setCurrentIslandIndex] = useState(-1);
   const { play, setHasScroll, end, setEnd, isPaused, setIsPaused } = usePlay();
   const islandMaterials = useRef({});
-  const previousCameraPosition = useRef(new THREE.Vector3(0, 0, 5)); // Initialize with default position
-  const isRestoringCamera = useRef(false); // Flag to prevent useFrame interference during restoration
+  const previousCameraPosition = useRef(new THREE.Vector3(0, 0, 5));
+  const isRestoringCamera = useRef(false);
 
   const curvePoints = useMemo(
     () => [
@@ -48,8 +53,26 @@ export const Experience = () => {
     return new THREE.CatmullRomCurve3(curvePoints, false, "catmullrom", 0.5);
   }, [curvePoints]);
 
+  const curvePointsGenerated = useMemo(() => curve.getPoints(500), [curve]);
+  const totalPoints = curvePointsGenerated.length - 1;
+
+  const getScrollThresholdFromPosition = (position, offset = 0) => {
+    let closestIndex = 0;
+    let minDist = Infinity;
+
+    for (let i = 0; i < curvePointsGenerated.length; i++) {
+      const dist = curvePointsGenerated[i].distanceTo(position);
+      if (dist < minDist) {
+        minDist = dist;
+        closestIndex = i;
+      }
+    }
+
+    return closestIndex / totalPoints + offset;
+  };
+
   const textSections = useMemo(() => {
-    return [
+    const sections = [
       {
         cameraRailDist: -1,
         position: new THREE.Vector3(
@@ -65,7 +88,6 @@ export const Experience = () => {
           rotation: new THREE.Euler(0, Math.PI / 4, 0),
         },
         islandName: "Island 1",
-        scrollThreshold: 0.2,
       },
       {
         cameraRailDist: 1.5,
@@ -83,7 +105,6 @@ export const Experience = () => {
           rotation: new THREE.Euler(0, -Math.PI / 6, 0),
         },
         islandName: "Island 2",
-        scrollThreshold: 0.4,
       },
       {
         cameraRailDist: -1,
@@ -101,7 +122,6 @@ export const Experience = () => {
           rotation: new THREE.Euler(0, Math.PI / 3, 0),
         },
         islandName: "Island 3",
-        scrollThreshold: 0.6,
       },
       {
         cameraRailDist: 1.5,
@@ -119,10 +139,23 @@ export const Experience = () => {
           rotation: new THREE.Euler(0, -Math.PI / 4, 0),
         },
         islandName: "Island 4",
-        scrollThreshold: 0.8,
       },
     ];
-  }, [curvePoints]);
+
+    // Tambahkan scrollThreshold ke setiap section berdasarkan posisi
+    return sections.map((section, i) => ({
+      ...section,
+      scrollThreshold: getScrollThresholdFromPosition(
+        section.position,
+        [
+          0.1, // offset untuk island 1 (lebih besar dari 0)
+          0.09, // offset untuk island 2
+          0.115, // offset untuk island 3
+          0.095,
+        ][i]
+      ),
+    }));
+  }, [curvePoints, curvePointsGenerated, totalPoints]);
 
   const clouds = useMemo(
     () => [
@@ -304,8 +337,8 @@ export const Experience = () => {
 
   const tl = useRef();
   const backgroundColors = useRef({
-      colorA: "#1a237e",
-      colorB: "#000051",
+    colorA: "#1a237e",
+    colorB: "#000051",
   });
   const planeInTl = useRef();
   const planeOutTl = useRef();
@@ -393,12 +426,11 @@ export const Experience = () => {
     lineMaterialRef.current.opacity = sceneOpacity.current;
 
     if (end || isPaused || isRestoringCamera.current) {
-      return; // Skip useFrame updates during pause or restoration
+      return;
     }
 
     const scrollOffset = Math.max(0, scroll.offset);
 
-    // Check for text appearance and pause immediately
     let shouldPause = false;
     textSections.forEach((textSection, index) => {
       const threshold = textSection.scrollThreshold;
@@ -419,7 +451,6 @@ export const Experience = () => {
           camera.current.position
         );
 
-        // Store the current camera position
         previousCameraPosition.current.copy(camera.current.position);
 
         openModal(textSection.islandName, index);
@@ -454,9 +485,8 @@ export const Experience = () => {
         previousCameraPosition.current
       );
       closeModal();
-      isRestoringCamera.current = true; // Pause useFrame updates
+      isRestoringCamera.current = true;
 
-      // Restore the camera to its previous position
       gsap.to(camera.current.position, {
         x: previousCameraPosition.current.x,
         y: previousCameraPosition.current.y,
@@ -471,7 +501,7 @@ export const Experience = () => {
     }
 
     if (shouldPause || isPaused) {
-      return; // Stop camera movement immediately when text appears
+      return;
     }
 
     let friction = 1;
@@ -567,7 +597,9 @@ export const Experience = () => {
   return useMemo(
     () => (
       <>
-        <directionalLight position={[0, 3, 1]} intensity={0.1} />
+        <Environment preset="sunset" />
+        <directionalLight position={[0, 3, 1]} intensity={0.7} />
+        <ambientLight intensity={0.4} />
         <group ref={cameraGroup}>
           <Speed />
           <Background backgroundColors={backgroundColors} />
