@@ -14,6 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { kalimantanBudaya } from "../../../docs/kalimantanBudaya";
+import { sulawesiBudaya } from "../../../docs/sulawesiBudaya";
 
 const Kebudayaan = ({ onSlideChange }) => {
   const swiperRef = useRef(null);
@@ -32,6 +33,8 @@ const Kebudayaan = ({ onSlideChange }) => {
       ? sumateraBudaya
       : path === "pulau-kalimantan"
       ? kalimantanBudaya
+      : path === "pulau-sulawesi"
+      ? sulawesiBudaya
       : [];
 
   return (

@@ -64,22 +64,22 @@ export const pulauHeroData = {
   },
   sulawesi: {
     page: "Pulau Sulawesi",
-    title: "Andalas",
+    title: "Celebes",
     description:
-      "Hai, Bondmates! Yuk, kita menyapa salah satu pulau terbesar di Indonesia, Pulau Sumatera! Pulau ini bukan cuma dikenal karena kekayaan alamnya yang luar biasa, tapi juga ragam budaya yang bikin kita terkagum-kagum. Gimana kalau kita eksplor tradisi-tradisi menakjubkan yang jadi cerminan kebijaksanaan, keberanian, dan keindahan masyarakat Sumatera? Yuk!",
-    background: "/hero/sumatera.png",
+      'Hai, Bondmates! Apa kabar kalian? Yuk, kita melanjutkan perjalanan budaya kita ke Pulau Sulawesi! Pulau yang punya bentuk unik seperti huruf "K" ini ternyata menyimpan tradisi dan seni yang nggak kalah menarik dari daerah lain. Siap untuk mengenal lebih dekat budaya yang luar biasa ini? Let\'s go!',
+    background: "/hero/sulawesi.png",
     decorations: {
       left: {
-        src: "/illustrator/kebudayaan/sumatera/left.svg",
+        src: "/illustrator/kebudayaan/sulawesi/left.svg",
         alt: "Ornamen Kiri",
         className:
-          "max-w-full w-52 md:w-[400px] absolute -left-16 md:left-0 -top-32 md:-top-32 animate-move-left-right",
+          "max-w-full w-52 md:w-[400px] absolute -left-16 md:left-0 -top-32 md:-top-52 animate-move-left-right",
       },
       right: {
-        src: "/illustrator/kebudayaan/sumatera/right.svg",
+        src: "/illustrator/kebudayaan/sulawesi/right.svg",
         alt: "Ornamen Kanan",
         className:
-          "max-w-full w-52 md:w-[400px] absolute -top-32 -right-[62px] md:right-0 md:-top-32 animate-move-left-right-right",
+          "max-w-full w-52 md:w-[400px] absolute -top-32 -right-[62px] md:right-0 md:-top-52 animate-move-left-right-right",
       },
     },
   },
