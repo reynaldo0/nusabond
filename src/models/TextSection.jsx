@@ -50,6 +50,8 @@ export const TextSection = forwardRef(
           return <Island3 {...modelProps} ref={islandRef} />;
         case "island4":
           return <Island4 {...modelProps} ref={islandRef} />;
+        case "island5":
+          return <Island4 {...modelProps} ref={islandRef} />;
         default:
           return <Island1 {...modelProps} ref={islandRef} />;
       }

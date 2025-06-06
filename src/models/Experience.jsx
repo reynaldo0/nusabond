@@ -17,12 +17,11 @@ import { TextSection } from "./TextSection";
 import { usePlay } from "../context/Play";
 import { useModal } from "../context/modal";
 
-const LINE_NB_POINTS = 1000;
+const LINE_NB_POINTS = 500;
 const CURVE_DISTANCE = 250;
 const CURVE_AHEAD_CAMERA = 0.008;
 const CURVE_AHEAD_AIRPLANE = 0.02;
 const AIRPLANE_MAX_ANGLE = 35;
-const FRICTION_DISTANCE = 42;
 
 export const Experience = () => {
   const { openModal, closeModal, modalData } = useModal();
@@ -31,6 +30,8 @@ export const Experience = () => {
   const islandMaterials = useRef({});
   const previousCameraPosition = useRef(new THREE.Vector3(0, 0, 5));
   const isRestoringCamera = useRef(false);
+  const scrollDirection = useRef(0); // 1 untuk scroll ke bawah, -1 untuk scroll ke atas
+  const lastScrollOffset = useRef(0);
 
   const curvePoints = useMemo(
     () => [
@@ -53,7 +54,7 @@ export const Experience = () => {
     return new THREE.CatmullRomCurve3(curvePoints, false, "catmullrom", 0.5);
   }, [curvePoints]);
 
-  const curvePointsGenerated = useMemo(() => curve.getPoints(500), [curve]);
+  const curvePointsGenerated = useMemo(() => curve.getPoints(200), [curve]);
   const totalPoints = curvePointsGenerated.length - 1;
 
   const getScrollThresholdFromPosition = (position, offset = 0) => {
@@ -130,7 +131,7 @@ export const Experience = () => {
           curvePoints[4].y,
           curvePoints[4].z - 12
         ),
-        title: "Movies",
+        title: "Pulau 4",
         subtitle: `We provide a large selection of medias, we highly recommend you Porco Rosso during the flight`,
         modelType: "island4",
         modelProps: {
@@ -140,21 +141,22 @@ export const Experience = () => {
         },
         islandName: "Island 4",
       },
+      
     ];
 
-    // Tambahkan scrollThreshold ke setiap section berdasarkan posisi
-    return sections.map((section, i) => ({
+    // Tambahkan scrollThreshold dan urutkan berdasarkan threshold
+    const sectionsWithThreshold = sections.map((section, i) => ({
       ...section,
       scrollThreshold: getScrollThresholdFromPosition(
         section.position,
-        [
-          0.1, // offset untuk island 1 (lebih besar dari 0)
-          0.09, // offset untuk island 2
-          0.115, // offset untuk island 3
-          0.095,
-        ][i]
+        [0.06, 0.07, 0.115, 0.095][i] // Sesuaikan offset
       ),
     }));
+
+    // Urutkan sections berdasarkan scrollThreshold untuk memastikan urutan yang benar
+    return sectionsWithThreshold.sort(
+      (a, b) => a.scrollThreshold - b.scrollThreshold
+    );
   }, [curvePoints, curvePointsGenerated, totalPoints]);
 
   const clouds = useMemo(
@@ -344,7 +346,7 @@ export const Experience = () => {
   const planeOutTl = useRef();
 
   useLayoutEffect(() => {
-    tl.current = gsap.timeline();
+    tl.current = gsap.timeline({ paused: true });
     tl.current.to(backgroundColors.current, {
       duration: 1,
       colorA: "#63E2FE",
@@ -360,18 +362,15 @@ export const Experience = () => {
       colorA: "#1a237e",
       colorB: "#000051",
     });
-    tl.current.pause();
 
-    planeInTl.current = gsap.timeline();
-    planeInTl.current.pause();
+    planeInTl.current = gsap.timeline({ paused: true });
     planeInTl.current.from(airplane.current.position, {
       duration: 3,
       z: 5,
       y: -2,
     });
 
-    planeOutTl.current = gsap.timeline();
-    planeOutTl.current.pause();
+    planeOutTl.current = gsap.timeline({ paused: true });
     planeOutTl.current.to(
       airplane.current.position,
       { duration: 10, z: -250, y: 10 },
@@ -402,6 +401,7 @@ export const Experience = () => {
       camera.current.fov = 80;
       camera.current.position.z = 2;
     }
+    camera.current.updateProjectionMatrix();
 
     if (lastScroll.current <= 0 && scroll.offset > 0) {
       setHasScroll(true);
@@ -431,40 +431,65 @@ export const Experience = () => {
 
     const scrollOffset = Math.max(0, scroll.offset);
 
+    // Tentukan arah scroll
+    scrollDirection.current = scrollOffset > lastScrollOffset.current ? 1 : -1;
+    lastScrollOffset.current = scrollOffset;
+
     let shouldPause = false;
+    let closestIslandIndex = -1;
+    let minThresholdDiff = Infinity;
+
+    // Cari pulau terdekat berdasarkan scrollOffset dan arah scroll
     textSections.forEach((textSection, index) => {
       const threshold = textSection.scrollThreshold;
-      const isInRange =
-        scrollOffset >= threshold - 0.05 && scrollOffset <= threshold + 0.05;
+      const thresholdDiff = Math.abs(scrollOffset - threshold);
+      const isInRange = thresholdDiff < 0.05; // Rentang deteksi yang sama untuk scroll ke atas dan ke bawah
 
-      if (isInRange && currentIslandIndex !== index) {
-        shouldPause = true;
-        setIsPaused(true);
-        setCurrentIslandIndex(index);
-        console.log(
-          "Text appeared for:",
-          textSection.islandName,
-          index,
-          "Scroll offset:",
-          scrollOffset,
-          "Camera position:",
-          camera.current.position
-        );
+      if (isInRange && thresholdDiff < minThresholdDiff) {
+        // Prioritaskan pulau berdasarkan arah scroll
+        const isValidForDirection =
+          scrollDirection.current === 1
+            ? scrollOffset >= threshold // Scroll ke bawah: pilih pulau dengan threshold <= scrollOffset
+            : scrollOffset <= threshold; // Scroll ke atas: pilih pulau dengan threshold >= scrollOffset
 
-        previousCameraPosition.current.copy(camera.current.position);
-
-        openModal(textSection.islandName, index);
-
-        const material = islandMaterials.current[index];
-        if (material) {
-          gsap.to(material, {
-            emissiveIntensity: 0.5,
-            duration: 0.5,
-          });
+        if (isValidForDirection) {
+          minThresholdDiff = thresholdDiff;
+          closestIslandIndex = index;
         }
       }
     });
 
+    if (
+      closestIslandIndex !== -1 &&
+      currentIslandIndex !== closestIslandIndex
+    ) {
+      shouldPause = true;
+      setIsPaused(true);
+      setCurrentIslandIndex(closestIslandIndex);
+      const textSection = textSections[closestIslandIndex];
+      console.log(
+        "Text appeared for:",
+        textSection.islandName,
+        closestIslandIndex,
+        "Scroll offset:",
+        scrollOffset,
+        "Camera position:",
+        camera.current.position
+      );
+
+      previousCameraPosition.current.copy(camera.current.position);
+      openModal(textSection.islandName, closestIslandIndex);
+
+      const material = islandMaterials.current[closestIslandIndex];
+      if (material) {
+        gsap.to(material, {
+          emissiveIntensity: 0.5,
+          duration: 0.5,
+        });
+      }
+    }
+
+    // Nonaktifkan emissiveIntensity untuk pulau lain
     Object.keys(islandMaterials.current).forEach((key) => {
       const idx = parseInt(key);
       if (idx !== currentIslandIndex) {
@@ -480,10 +505,6 @@ export const Experience = () => {
 
     if (!shouldPause && isPaused) {
       setIsPaused(false);
-      console.log(
-        "Closing modal, restoring camera to:",
-        previousCameraPosition.current
-      );
       closeModal();
       isRestoringCamera.current = true;
 
@@ -504,14 +525,7 @@ export const Experience = () => {
       return;
     }
 
-    let friction = 1;
-    let resetCameraRail = true;
-
-    if (resetCameraRail) {
-      const targetCameraRailPosition = new Vector3(0, 0, 0);
-      cameraRail.current.position.lerp(targetCameraRailPosition, delta);
-    }
-
+    const friction = 1; // Nilai friction untuk scroll lebih mulus
     let lerpedScrollOffset = THREE.MathUtils.lerp(
       lastScroll.current,
       scrollOffset,
@@ -524,27 +538,23 @@ export const Experience = () => {
     tl.current.seek(lerpedScrollOffset * tl.current.duration());
 
     const curPoint = curve.getPoint(lerpedScrollOffset);
-
-    cameraGroup.current.position.lerp(curPoint, delta * 24);
+    cameraGroup.current.position.lerp(curPoint, delta * 10);
 
     const lookAtPoint = curve.getPoint(
       Math.min(lerpedScrollOffset + CURVE_AHEAD_CAMERA, 1)
     );
-
     const currentLookAt = cameraGroup.current.getWorldDirection(
       new THREE.Vector3()
     );
     const targetLookAt = new THREE.Vector3()
       .subVectors(curPoint, lookAtPoint)
       .normalize();
-
-    const lookAt = currentLookAt.lerp(targetLookAt, delta * 24);
+    const lookAt = currentLookAt.lerp(targetLookAt, delta * 10);
     cameraGroup.current.lookAt(
       cameraGroup.current.position.clone().add(lookAt)
     );
 
     const tangent = curve.getTangent(lerpedScrollOffset + CURVE_AHEAD_AIRPLANE);
-
     const nonLerpLookAt = new Group();
     nonLerpLookAt.position.copy(curPoint);
     nonLerpLookAt.lookAt(nonLerpLookAt.position.clone().add(targetLookAt));
@@ -597,9 +607,9 @@ export const Experience = () => {
   return useMemo(
     () => (
       <>
-        <Environment preset="sunset" />
-        <directionalLight position={[0, 3, 1]} intensity={0.7} />
-        <ambientLight intensity={0.4} />
+        <Environment preset="city" />
+        <directionalLight position={[0, 3, 1]} intensity={0.5} />
+        <ambientLight intensity={0.2} />
         <group ref={cameraGroup}>
           <Speed />
           <Background backgroundColors={backgroundColors} />
@@ -631,7 +641,7 @@ export const Experience = () => {
           />
         ))}
         <group position-y={-2}>
-          <mesh>
+          <mesh castShadow={false} receiveShadow={false}>
             <extrudeGeometry
               args={[
                 shape,

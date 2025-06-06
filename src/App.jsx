@@ -9,6 +9,7 @@ import Sumatera from "./pages/pulau/Sumatera";
 import Sulawesi from "./pages/pulau/Sulawesi";
 import Papua from "./pages/pulau/Papua";
 import Kalimantan from "./pages/pulau/Kalimantan";
+import Quiz from "./pages/Quiz";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/pulau-sulawesi" element={<Sulawesi />} />
           <Route path="/pulau-papua" element={<Papua />} />
           <Route path="/pulau-kalimantan" element={<Kalimantan />} />
+          <Route path="/quiz" element={<Quiz />} />
         </Routes>
       </PlayProvider>
     </BrowserRouter>
