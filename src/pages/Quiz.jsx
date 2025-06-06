@@ -103,7 +103,10 @@ const Quiz = () => {
                     {String.fromCharCode(65 + index)}. {option}
                   </span>
                   {isCorrect && selected !== null && (
-                    <img src="/illustrator/ceklis.svg" alt="" width={20} />
+                    <img src="/illustrator/ceklis.svg" alt="Benar" width={20} />
+                  )}
+                  {selected !== null && isSelected && !isCorrect && (
+                    <img src="/illustrator/salah.svg" alt="Salah" width={20} />
                   )}
                 </button>
               );
