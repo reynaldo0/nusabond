@@ -43,10 +43,10 @@ const Quiz = () => {
   const progressPercent = ((current + 1) / questions.length) * 100;
 
   const getEvaluation = () => {
-    if (score < 40) return "Kamu harus belajar lebih giat.";
+    if (score < 40) return "Kamu harus belajar Belajar Budaya Nusantara lagi!";
     if (score < 70) return "Lumayan, tapi masih bisa ditingkatkan!";
     if (score < 90) return "Bagus! Kamu hampir sempurna.";
-    return "Luar biasa! Kamu sangat menguasai materi ini.";
+    return "Luar biasa! Kamu sangat menguasai budaya di Indonesia!";
   };
 
   return (

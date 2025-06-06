@@ -32,12 +32,12 @@ const Navbar = () => {
               </Link>
             </li>
             <li className="relative group">
-              <a
-                href="about.html#eksplore"
+              <Link
+                to={"/quiz"}
                 className="block rounded px-2 py-1 transition-all duration-300 text-white hover:text-white-400 before:absolute before:-bottom-1 before:left-0 before:h-[2px] before:w-full before:scale-x-0 before:bg-white before:opacity-0 before:transition before:content-[''] hover:before:scale-x-100 hover:before:opacity-100"
               >
-                Peta
-              </a>
+                Quiz
+              </Link>
             </li>
             <li className="group relative">
               <a
