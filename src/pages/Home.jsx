@@ -29,7 +29,7 @@ export const Home = () => {
       </video>
 
       {/* Awan Pertama */}
-      <div
+      {/* <div
         id="cloud"
         className="absolute bottom-0 scale-y-125 md:scale-y-100 md:-bottom-16 w-full right-0 animate-cloud"
       >
@@ -38,7 +38,7 @@ export const Home = () => {
           alt="Cloud Effect"
           className="w-full h-auto object-cover"
         />
-      </div>
+      </div> */}
 
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-white text-center px-5 text-zoom-in bg-black/60">

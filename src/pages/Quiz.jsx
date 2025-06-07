@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import questions from "../docs/questionData";
+import Star from "/illustrator/star.svg"; // Pastikan path benar
+import Cross from "/illustrator/salah.svg"; // Atau buat ikon khusus untuk 0 skor
 
 const Quiz = () => {
   const [current, setCurrent] = useState(0);
@@ -9,12 +11,10 @@ const Quiz = () => {
   const [showResult, setShowResult] = useState(false);
   const [animationClass, setAnimationClass] = useState("slide-in-left");
 
-  // Refs untuk audio
   const correctSound = useRef(null);
   const wrongSound = useRef(null);
   const resultSound = useRef(null);
 
-  // Putar suara saat showResult berubah jadi true
   useEffect(() => {
     if (showResult && resultSound.current) {
       resultSound.current.currentTime = 0;
@@ -31,26 +31,27 @@ const Quiz = () => {
 
     setAnswers([...answers, index]);
 
-    // Play sound
     if (isCorrect) {
       correctSound.current.currentTime = 0;
       correctSound.current.play();
-      setScore((prevScore) => prevScore + 10);
+      setScore((prev) => prev + 10);
     } else {
       wrongSound.current.currentTime = 0;
       wrongSound.current.play();
     }
-    setAnimationClass("slide-out-left");
 
     setTimeout(() => {
       if (current < questions.length - 1) {
-        setCurrent(current + 1);
-        setSelected(null);
-        setAnimationClass("slide-in-left");
+        setAnimationClass("slide-out-left");
+        setTimeout(() => {
+          setCurrent(current + 1);
+          setSelected(null);
+          setAnimationClass("slide-in-left");
+        }, 300);
       } else {
         setShowResult(true);
       }
-    }, 1000);
+    }, 2000);
   };
 
   const resetQuiz = () => {
@@ -64,11 +65,20 @@ const Quiz = () => {
 
   const progressPercent = ((current + 1) / questions.length) * 100;
 
+  const getStars = () => {
+    if (score >= 90) return 3;
+    if (score >= 70) return 2;
+    if (score >= 40) return 1;
+    return 0;
+  };
+
   const getEvaluation = () => {
-    if (score < 40) return "Kamu harus belajar Belajar Budaya Nusantara lagi!";
-    if (score < 70) return "Lumayan, tapi masih bisa ditingkatkan!";
-    if (score < 90) return "Bagus! Kamu hampir sempurna.";
-    return "Luar biasa! Kamu sangat menguasai budaya di Indonesia!";
+    if (score >= 90)
+      return "Luar biasa! Kamu sangat menguasai budaya di Indonesia!";
+    if (score >= 70) return "Bagus! Kamu cukup paham tentang budaya Indonesia.";
+    if (score >= 40)
+      return "Masih perlu belajar lebih banyak tentang budaya Indonesia.";
+    return "Wah, sepertinya kamu perlu mencoba lagi!";
   };
 
   return (
@@ -159,22 +169,49 @@ const Quiz = () => {
           {showResult && (
             <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
               <div className="bg-white rounded-3xl p-10 max-w-xl w-full text-center shadow-lg fade-in-up">
-                <h2 className="text-3xl font-bold text-primary-200 mb-4">
+                <h2 className="text-3xl font-bold text-primary-200 mb-6">
                   Kuis Selesai!
                 </h2>
-                <p className="text-xl text-gray-800 mb-6">
+
+                {/* Bintang */}
+                <div className="flex justify-center gap-2 mb-4">
+                  {getStars() > 0 ? (
+                    [...Array(getStars())].map((_, i) => (
+                      <img
+                        key={i}
+                        src={Star}
+                        alt="star"
+                        className="w-20 h-20 animate-bounce"
+                        style={{ animationDelay: `${i * 0.2}s` }}
+                      />
+                    ))
+                  ) : (
+                    <img src={Cross} alt="no-star" className="w-20 h-20" />
+                  )}
+                </div>
+
+                <p className="text-xl text-gray-800 mb-2">
                   Skor kamu: <span className="font-bold">{score}</span> dari{" "}
                   {questions.length * 10}
                 </p>
                 <p className="text-md text-gray-600 italic mb-6">
                   {getEvaluation()}
                 </p>
-                <button
-                  onClick={resetQuiz}
-                  className="text-lg px-6 py-3 bg-primary-200 text-white rounded-xl hover:bg-[#2e4631] transition"
-                >
-                  Ulangi Kuis
-                </button>
+
+                <div className="flex flex-col md:flex-row gap-4 justify-center">
+                  <button
+                    onClick={() => setShowResult(false)}
+                    className="text-lg px-14 py-3 bg-gray-300 text-gray-800 rounded-xl hover:bg-gray-400 transition"
+                  >
+                    Tutup
+                  </button>
+                  <button
+                    onClick={resetQuiz}
+                    className="text-lg px-14 py-3 bg-secondary-200 text-black rounded-xl hover:bg-secondary-200/80 transition"
+                  >
+                    Ulangi Kuis
+                  </button>
+                </div>
               </div>
             </div>
           )}
