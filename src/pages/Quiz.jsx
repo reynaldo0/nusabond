@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import questions from "../docs/questionData";
 
 const Quiz = () => {
@@ -12,6 +12,15 @@ const Quiz = () => {
   // Refs untuk audio
   const correctSound = useRef(null);
   const wrongSound = useRef(null);
+  const resultSound = useRef(null);
+
+  // Putar suara saat showResult berubah jadi true
+  useEffect(() => {
+    if (showResult && resultSound.current) {
+      resultSound.current.currentTime = 0;
+      resultSound.current.play();
+    }
+  }, [showResult]);
 
   const handleAnswer = (index) => {
     if (selected !== null) return;
@@ -26,7 +35,7 @@ const Quiz = () => {
     if (isCorrect) {
       correctSound.current.currentTime = 0;
       correctSound.current.play();
-      setScore(score + 10);
+      setScore((prevScore) => prevScore + 10);
     } else {
       wrongSound.current.currentTime = 0;
       wrongSound.current.play();
@@ -67,8 +76,9 @@ const Quiz = () => {
       {/* Audio elements */}
       <audio ref={correctSound} src="/sound/benar.mp3" />
       <audio ref={wrongSound} src="/sound/salah.mp3" />
+      <audio ref={resultSound} src="/sound/score.mp3" />
 
-      <section className="min-h-screen justify-center bg-[url('/illustrator/quiz.png')]">
+      <section className="min-h-screen justify-center bg-[url('/illustrator/quiz.png')] bg-cover bg-center">
         <div className="max-w-5xl pt-28 md:pt-32 mx-auto p-4">
           <h1 className="text-3xl md:text-4xl font-bold text-center text-primary-200 mb-6">
             Kuis Budaya Nusantara
@@ -84,9 +94,11 @@ const Quiz = () => {
 
           {/* Soal */}
           <div
-            className={`bg-primary-200 text-white p-8 rounded-3xl shadow-md  ${animationClass}`}
+            className={`bg-primary-200 text-white p-8 rounded-3xl shadow-md ${animationClass}`}
           >
-            <p className="text-sm mb-2">Pertanyaan {current + 1}/10</p>
+            <p className="text-sm mb-2">
+              Pertanyaan {current + 1}/{questions.length}
+            </p>
             <h2 className="text-2xl font-semibold mb-4">
               {questions[current].question}
             </h2>
@@ -147,7 +159,7 @@ const Quiz = () => {
           {showResult && (
             <div className="fixed inset-0 bg-black/30 backdrop-blur-sm flex items-center justify-center z-50">
               <div className="bg-white rounded-3xl p-10 max-w-xl w-full text-center shadow-lg fade-in-up">
-                <h2 className="text-3xl font-bold text-pribg-primary-200 mb-4">
+                <h2 className="text-3xl font-bold text-primary-200 mb-4">
                   Kuis Selesai!
                 </h2>
                 <p className="text-xl text-gray-800 mb-6">
