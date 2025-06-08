@@ -30,13 +30,13 @@ export const jawaBudaya = [
   },
   {
     title: "Palang Pintu (Suku Betawi)",
-    image: "/budaya/jawa/palang.png",
+    image: "/budaya/jawa/pintu.png",
     desc: "Tradisi Palang Pintu adalah salah satu tradisi pernikahan unik di Indonesia, Bondmates! Di sini, calon pengantin pria harus membuktikan dirinya pantas menikahi sang pujaan hati. Caranya? Melewati berbagai ujian seperti berbalas pantun hingga adu silat. Lucunya, ini semua dilakukan dengan suasana yang ceria dan penuh tawa. Ujian ini nggak cuma sekadar simbol, tapi juga menunjukkan kesungguhan calon pengantin pria. Seru banget, ya!",
     url: "https://repository.uniga.ac.id/file/mahasiswa/1124893983.pdf",
   },
   {
     title: "Lenong (Suku Betawi)",
-    image: "/budaya/jawa/lenong.png",
+    image: "/budaya/jawa/noleng.png",
     desc: "Lenong adalah teater khas Betawi yang penuh kelucuan dan kritik sosial. Dengan bahasa Betawi yang kocak, lenong sering mengangkat isu-isu kehidupan sehari-hari yang relevan. Yang seru, lenong selalu dibarengi musik tradisional seperti gambang kromong, bikin suasananya makin hidup!",
     url:
       "https://media.neliti.com/media/publications/476249-none-570764d3.pdf",
