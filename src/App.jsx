@@ -11,11 +11,13 @@ import Papua from "./pages/pulau/Papua";
 import Kalimantan from "./pages/pulau/Kalimantan";
 import Quiz from "./pages/Quiz";
 import { HeroQuiz } from "./pages/HeroQuiz";
+import ScrollToTop from "./components/ScrollOnTop";
 
 function App() {
   return (
     <BrowserRouter>
       <Navbar />
+      <ScrollToTop />
       <PlayProvider>
         <Routes>
           <Route path="/" element={<Home />} />
