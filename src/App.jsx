@@ -1,18 +1,17 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import { Home } from "./pages/Home";
-import About from "./pages/About";
-import Scene from "./pages/Scene";
-import { PlayProvider } from "./context/Play";
-import Jawa from "./pages/pulau/Jawa";
-import Sumatera from "./pages/pulau/Sumatera";
-import Sulawesi from "./pages/pulau/Sulawesi";
-import Papua from "./pages/pulau/Papua";
-import Kalimantan from "./pages/pulau/Kalimantan";
-import Quiz from "./pages/Quiz";
-import { HeroQuiz } from "./pages/HeroQuiz";
 import ScrollToTop from "./components/ScrollOnTop";
-import HeroSection from "./pages/TesHero";
+import { PlayProvider } from "./context/Play";
+import About from "./pages/About";
+import { HeroQuiz } from "./pages/HeroQuiz";
+import { Home } from "./pages/Home";
+import Jawa from "./pages/pulau/Jawa";
+import Kalimantan from "./pages/pulau/Kalimantan";
+import Papua from "./pages/pulau/Papua";
+import Sulawesi from "./pages/pulau/Sulawesi";
+import Sumatera from "./pages/pulau/Sumatera";
+import Quiz from "./pages/Quiz";
+import Scene from "./pages/Scene";
 
 function App() {
   return (
@@ -31,7 +30,6 @@ function App() {
           <Route path="/pulau-kalimantan" element={<Kalimantan />} />
           <Route path="/quiz" element={<HeroQuiz />} />
           <Route path="/soal-quiz" element={<Quiz />} />
-          <Route path="/test" element={<HeroSection />} />
         </Routes>
       </PlayProvider>
     </BrowserRouter>

@@ -1,10 +1,9 @@
 import { Environment, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { pulauHeroData } from "../../../docs/pulauHeroData";
-import RobotModel from "../../../models/Test"; // pastikan ini benar
-import { Island1 } from "../../../models/components/Island1";
+import { PulauJawa } from "../../../models/components/PulauJawa";
 
 const Hero = () => {
   const location = useLocation();
@@ -12,6 +11,36 @@ const Hero = () => {
 
   const { background } = pulauHeroData[path] || pulauHeroData["jawa"];
 
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768); // batas mobile bisa disesuaikan
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  const [scale, setScale] = useState(0.6);
+
+  useEffect(() => {
+    function updateScale() {
+      if (window.innerWidth < 768) {
+        // Mobile
+        setScale(0.3);
+      } else {
+        // Desktop
+        setScale(0.6);
+      }
+    }
+
+    updateScale(); // set awal
+    window.addEventListener("resize", updateScale);
+
+    return () => window.removeEventListener("resize", updateScale);
+  }, []);
   return (
     <div
       className="relative h-screen w-full bg-cover bg-center sm:bg-top md:bg-center"
@@ -30,14 +59,21 @@ const Hero = () => {
         draggable="false"
         className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 mb-2 z-10"
       />
+      <div
+        className="absolute inset-0 z-[9999999] md:hidden"
+        style={{
+          backgroundColor: "transparent",
+          touchAction: "auto", // biar browser tahu ini bisa di scroll
+        }}
+      />
 
       {/* 3D Canvas */}
-      <div className="absolute top-1/2 left-1/2 w-[970px] h-[580px] transform -translate-x-1/2 -translate-y-1/2 z-[9999]">
+      <div className="absolute top-1/2 left-1/2 w-full h-[580px] transform -translate-x-1/2 -translate-y-1/2 z-[9999] touch-action-auto">
         <Canvas className="w-full h-full">
           <ambientLight intensity={0.5} />
           <directionalLight position={[0, 5, 5]} intensity={1} />
           <Suspense fallback={null}>
-            <Island1 scale={0.3} />
+            <PulauJawa scale={scale} />
             <Environment preset="sunset" />
           </Suspense>
           \
@@ -48,6 +84,7 @@ const Hero = () => {
             maxPolarAngle={Math.PI / 2}
             autoRotate
             autoRotateSpeed={2}
+            enableRotate={!isMobile}
           />
         </Canvas>
       </div>

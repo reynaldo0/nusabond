@@ -137,6 +137,11 @@ html {
   right: 0;
 }
 
+.touch-action-auto {
+  touch-action: auto;
+}
+
+
 .overlay--disable {
   pointer-events: none;
 }
