@@ -1,18 +1,12 @@
-import React, { useState } from "react";
 import Hero from "./templates/Hero";
-import Kebudayaan from "./templates/Kebudayaan";
-import Content from "./templates/Content";
-import { jawaBudaya } from "../../docs/jawaBudaya";
 import Footer from "../../components/Footer";
+import CultureSlider from "./templates/Budaya";
 
 const Jawa = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
   return (
-    <div className="overflow-x-hidden">
+    <div className="bg-[#F6F4F0] overflow-x-hidden">
       <Hero />
-      <Kebudayaan onSlideChange={setCurrentIndex} />
-      <Content current={jawaBudaya[currentIndex]} />
+      <CultureSlider />
       <Footer />
     </div>
   );

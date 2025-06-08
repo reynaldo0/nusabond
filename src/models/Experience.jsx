@@ -30,8 +30,7 @@ export const Experience = () => {
   const islandMaterials = useRef({});
   const previousCameraPosition = useRef(new THREE.Vector3(0, 0, 5));
   const isRestoringCamera = useRef(false);
-  const scrollDirection = useRef(0); // 1 untuk scroll ke bawah, -1 untuk scroll ke atas
-  const lastScrollOffset = useRef(0);
+  const lastScrollOffset = useRef(0); // Tracks the highest scroll offset reached
 
   const curvePoints = useMemo(
     () => [
@@ -43,6 +42,7 @@ export const Experience = () => {
       new THREE.Vector3(0, 0, -5 * CURVE_DISTANCE),
       new THREE.Vector3(0, 0, -6 * CURVE_DISTANCE),
       new THREE.Vector3(0, 0, -7 * CURVE_DISTANCE),
+      new THREE.Vector3(0, 0, -8 * CURVE_DISTANCE),
     ],
     []
   );
@@ -131,8 +131,8 @@ export const Experience = () => {
           curvePoints[4].y,
           curvePoints[4].z - 12
         ),
-        title: "Pulau 4",
-        subtitle: `We provide a large selection of medias, we highly recommend you Porco Rosso during the flight`,
+        title: "Entertainment",
+        subtitle: `We provide a large selection of media, we highly recommend Porco Rosso during the flight`,
         modelType: "island4",
         modelProps: {
           position: new THREE.Vector3(10, -3, -25),
@@ -141,19 +141,50 @@ export const Experience = () => {
         },
         islandName: "Island 4",
       },
-      
+      {
+        cameraRailDist: -1,
+        position: new THREE.Vector3(
+          curvePoints[5].x - 2,
+          curvePoints[5].y + 1,
+          curvePoints[5].z - 10
+        ),
+        title: "Dining",
+        subtitle: `Enjoy gourmet meals prepared by our top chefs`,
+        modelType: "island5",
+        modelProps: {
+          position: new THREE.Vector3(-8, -2.8, -30),
+          scale: 1.3,
+          rotation: new THREE.Euler(0, Math.PI / 5, 0),
+        },
+        islandName: "Island 5",
+      },
+      {
+        cameraRailDist: 1.5,
+        position: new THREE.Vector3(
+          curvePoints[6].x + 4,
+          curvePoints[6].y - 1,
+          curvePoints[6].z - 15
+        ),
+        title: "Relaxation",
+        subtitle: `Unwind with our premium spa services during your flight`,
+        modelType: "island4",
+        modelProps: {
+          position: new THREE.Vector3(12, -3.5, -35),
+          scale: 1.4,
+          rotation: new THREE.Euler(0, -Math.PI / 3, 0),
+        },
+        islandName: "Island 6",
+      },
     ];
 
-    // Tambahkan scrollThreshold dan urutkan berdasarkan threshold
     const sectionsWithThreshold = sections.map((section, i) => ({
       ...section,
       scrollThreshold: getScrollThresholdFromPosition(
         section.position,
-        [0.06, 0.07, 0.115, 0.095][i] // Sesuaikan offset
+        [0.03, 0.04, 0.065 , 0.095, 0.08, 0.09][i]
       ),
     }));
 
-    // Urutkan sections berdasarkan scrollThreshold untuk memastikan urutan yang benar
     return sectionsWithThreshold.sort(
       (a, b) => a.scrollThreshold - b.scrollThreshold
     );
@@ -304,18 +335,18 @@ export const Experience = () => {
       {
         scale: new Vector3(3, 3, 3),
         position: new Vector3(
-          curvePoints[7].x + 12,
-          curvePoints[7].y - 5,
-          curvePoints[7].z + 60
+          curvePoints[5].x + 12,
+          curvePoints[5].y - 5,
+          curvePoints[5].z + 60
         ),
         rotation: new Euler(-Math.PI / 4, -Math.PI / 6, 0),
       },
       {
         scale: new Vector3(3, 3, 3),
         position: new Vector3(
-          curvePoints[7].x - 12,
-          curvePoints[7].y + 5,
-          curvePoints[7].z + 120
+          curvePoints[6].x - 12,
+          curvePoints[6].y + 5,
+          curvePoints[6].z + 120
         ),
         rotation: new Euler(Math.PI / 4, Math.PI / 6, 0),
       },
@@ -425,43 +456,38 @@ export const Experience = () => {
 
     lineMaterialRef.current.opacity = sceneOpacity.current;
 
-    if (end || isPaused || isRestoringCamera.current) {
+    if (end) {
       return;
     }
 
-    const scrollOffset = Math.max(0, scroll.offset);
-
-    // Tentukan arah scroll
-    scrollDirection.current = scrollOffset > lastScrollOffset.current ? 1 : -1;
-    lastScrollOffset.current = scrollOffset;
+    // Enforce one-way scrolling (only allow scroll offset to increase)
+    let scrollOffset = Math.max(0, scroll.offset);
+    if (scrollOffset < lastScrollOffset.current) {
+      scrollOffset = lastScrollOffset.current; // Prevent scrolling up
+    } else {
+      lastScrollOffset.current = scrollOffset; // Update the last scroll offset
+    }
 
     let shouldPause = false;
     let closestIslandIndex = -1;
     let minThresholdDiff = Infinity;
 
-    // Cari pulau terdekat berdasarkan scrollOffset dan arah scroll
+    // Find closest island based on scrollOffset
     textSections.forEach((textSection, index) => {
       const threshold = textSection.scrollThreshold;
       const thresholdDiff = Math.abs(scrollOffset - threshold);
-      const isInRange = thresholdDiff < 0.05; // Rentang deteksi yang sama untuk scroll ke atas dan ke bawah
+      const isInRange = thresholdDiff < 0.05;
 
-      if (isInRange && thresholdDiff < minThresholdDiff) {
-        // Prioritaskan pulau berdasarkan arah scroll
-        const isValidForDirection =
-          scrollDirection.current === 1
-            ? scrollOffset >= threshold // Scroll ke bawah: pilih pulau dengan threshold <= scrollOffset
-            : scrollOffset <= threshold; // Scroll ke atas: pilih pulau dengan threshold >= scrollOffset
-
-        if (isValidForDirection) {
-          minThresholdDiff = thresholdDiff;
-          closestIslandIndex = index;
-        }
+      if (isInRange && thresholdDiff < minThresholdDiff && scrollOffset >= threshold) {
+        minThresholdDiff = thresholdDiff;
+        closestIslandIndex = index;
       }
     });
 
     if (
       closestIslandIndex !== -1 &&
-      currentIslandIndex !== closestIslandIndex
+      currentIslandIndex !== closestIslandIndex &&
+      !isPaused
     ) {
       shouldPause = true;
       setIsPaused(true);
@@ -489,7 +515,7 @@ export const Experience = () => {
       }
     }
 
-    // Nonaktifkan emissiveIntensity untuk pulau lain
+    // Disable emissiveIntensity for other islands
     Object.keys(islandMaterials.current).forEach((key) => {
       const idx = parseInt(key);
       if (idx !== currentIslandIndex) {
@@ -503,7 +529,8 @@ export const Experience = () => {
       }
     });
 
-    if (!shouldPause && isPaused) {
+    // Allow scrolling after modal is closed
+    if (!shouldPause && isPaused && !modalData) {
       setIsPaused(false);
       closeModal();
       isRestoringCamera.current = true;
@@ -521,11 +548,11 @@ export const Experience = () => {
       });
     }
 
-    if (shouldPause || isPaused) {
+    if (shouldPause || isPaused || isRestoringCamera.current) {
       return;
     }
 
-    const friction = 1; // Nilai friction untuk scroll lebih mulus
+    const friction = 1;
     let lerpedScrollOffset = THREE.MathUtils.lerp(
       lastScroll.current,
       scrollOffset,
@@ -599,10 +626,12 @@ export const Experience = () => {
 
   useEffect(() => {
     console.log("isPaused:", isPaused, "modalData:", modalData);
-    if (isPaused && modalData === null) {
-      console.warn("modalData is null while isPaused is true");
+    if (isPaused && modalData === null && !isRestoringCamera.current) {
+      console.log("Resetting isPaused due to null modalData");
+      setIsPaused(false);
+      closeModal();
     }
-  }, [isPaused, modalData]);
+  }, [isPaused, modalData, closeModal]);
 
   return useMemo(
     () => (
