@@ -13,6 +13,9 @@ import Sumatera from "./pages/pulau/Sumatera";
 import Quiz from "./pages/Quiz";
 import Scene from "./pages/Scene";
 
+import { useGLTF } from "@react-three/drei";
+useGLTF.preload("/models/kalimantan.glb");
+
 function App() {
   return (
     <BrowserRouter>
