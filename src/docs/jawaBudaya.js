@@ -2,7 +2,7 @@
 export const jawaBudaya = [
   {
     title: "Batik (Suku Jawa)",
-    image: "/budaya/jawa/Batik.png",
+    image: "/budaya/jawa/batik.png",
     desc: "Bondmates, kalian pasti familiar banget sama batik, kan? Tapi tahu nggak, kalau setiap motif batik itu punya cerita tersendiri, lho! Misalnya, motif Parang melambangkan keberanian, sedangkan motif Kawung menggambarkan kesucian hati. Proses pembuatannya juga nggak main-main, mulai dari mencanting, mewarnai, sampai pengeringan. Bondmates, kalau kalian punya koleksi batik, motif apa yang kalian pilih, nih?",
     url:
       "https://repositori.kemdikbud.go.id/19890/1/Keajaiban%20Batik%20Full.pdf",
@@ -42,5 +42,3 @@ export const jawaBudaya = [
       "https://media.neliti.com/media/publications/476249-none-570764d3.pdf",
   },
 ];
-
-export const JawaTitle = "Budaya Pulau Jawa";

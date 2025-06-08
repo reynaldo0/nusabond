@@ -1,12 +1,12 @@
-import Hero from "./templates/Hero";
 import Footer from "../../components/Footer";
-import CultureSlider from "./templates/Budaya";
+import Budaya from "./templates/Budaya";
+import Hero from "./templates/Hero";
 
 const Jawa = () => {
   return (
     <div className="bg-[#F6F4F0] overflow-x-hidden">
       <Hero />
-      <CultureSlider />
+      <Budaya />
       <Footer />
     </div>
   );

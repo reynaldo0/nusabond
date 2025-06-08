@@ -28,5 +28,3 @@ export const kalimantanBudaya = [
       "https://drive.google.com/file/d/1hbvCOD_SdHpc5AHfJ07Tl5ywrBjvcGJQ/preview",
   },
 ];
-
-export const kalimantanTitle = "Budaya Pulau Kalimantan";

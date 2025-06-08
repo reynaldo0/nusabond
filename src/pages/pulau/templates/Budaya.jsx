@@ -1,21 +1,20 @@
+import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import { Pagination } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import data budaya & hero
-import { jawaBudaya, JawaTitle } from "../../../docs/jawaBudaya";
+import { jawaBudaya } from "../../../docs/jawaBudaya";
 import {
-  kalimantanBudaya,
-  kalimantanTitle,
+    kalimantanBudaya
 } from "../../../docs/kalimantanBudaya";
-import { sumateraBudaya } from "../../../docs/sumateraBudaya";
-import { sulawesiBudaya } from "../../../docs/sulawesiBudaya";
 import { papuaBudaya } from "../../../docs/papuaBudaya";
 import { pulauHeroData } from "../../../docs/pulauHeroData";
+import { sulawesiBudaya } from "../../../docs/sulawesiBudaya";
+import { sumateraBudaya } from "../../../docs/sumateraBudaya";
 
 // Peta data budaya
 const budayaMap = {
@@ -26,7 +25,7 @@ const budayaMap = {
   "/pulau-papua": { data: papuaBudaya },
 };
 
-const CultureSlider = () => {
+const Budaya = () => {
   const location = useLocation();
   const path = location.pathname;
   const slug = path.replace("/pulau-", "") || "jawa";
@@ -127,4 +126,4 @@ const CultureSlider = () => {
   );
 };
 
-export default CultureSlider;
+export default Budaya;
