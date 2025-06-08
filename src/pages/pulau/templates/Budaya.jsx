@@ -8,9 +8,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import data budaya & hero
 import { jawaBudaya } from "../../../docs/jawaBudaya";
-import {
-    kalimantanBudaya
-} from "../../../docs/kalimantanBudaya";
+import { kalimantanBudaya } from "../../../docs/kalimantanBudaya";
 import { papuaBudaya } from "../../../docs/papuaBudaya";
 import { pulauHeroData } from "../../../docs/pulauHeroData";
 import { sulawesiBudaya } from "../../../docs/sulawesiBudaya";
@@ -50,6 +48,7 @@ const Budaya = () => {
               src={currentPulau?.decorations?.left?.src}
               alt={currentPulau?.decorations?.left?.alt}
               className={currentPulau?.decorations?.left?.className}
+              loading="lazy"
             />
           </div>
 
@@ -59,6 +58,7 @@ const Budaya = () => {
               src={currentPulau?.decorations?.right?.src}
               alt={currentPulau?.decorations?.right?.alt}
               className={currentPulau?.decorations?.right?.className}
+              loading="lazy"
             />
           </div>
         </div>
@@ -97,6 +97,7 @@ const Budaya = () => {
                 <img
                   src={item.image}
                   alt={item.title}
+                  loading="lazy"
                   className="h-92 w-full object-cover rounded-2xl"
                 />
                 <div className="p-5 flex-1 bg-white flex flex-col -translate-y-8 z-10 rounded-2xl relative mx-5">
