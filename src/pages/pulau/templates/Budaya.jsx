@@ -38,7 +38,7 @@ const Budaya = () => {
   const cultures = selectedBudaya.data;
 
   return (
-    <>
+    <div className="relative">
       {/* ===== Section Dekorasi dan Judul ===== */}
       <section className="relative">
         <div className="w-full relative">
@@ -81,7 +81,7 @@ const Budaya = () => {
       </section>
 
       {/* ===== Section Swiper Slider ===== */}
-      <section className="w-full px-4 py-10 ">
+      <section className="w-full px-4 py-10 pb-72">
         <Swiper
           modules={[Pagination]}
           spaceBetween={20}
@@ -123,7 +123,13 @@ const Budaya = () => {
           ))}
         </Swiper>
       </section>
-    </>
+      <div className="absolute bottom-0 w-screen">
+        <img
+          src="/illustrator/wave/footer.png"
+          className="w-full h-full object-cover"
+        />
+      </div>
+    </div>
   );
 };
 

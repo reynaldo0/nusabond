@@ -17,7 +17,7 @@ const Hero = () => {
     >
       <div className="absolute inset-0 bg-primary-100 opacity-65 pointer-events-none"></div>
 
-      <div className="absolute bottom-0 left-0 w-full h-60 bg-gradient-to-t from-white/100 via-[#59C296]/40 to-transparent pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 w-full h-60 bg-gradient-to-t from-[#F6F4F0] via-[#59C296]/40 to-transparent pointer-events-none"></div>
 
       <div className="absolute bottom-36 mx-4 md:mx-0 text-justify md:bottom-40 text-white md:left-20 md:right-20">
         <p
