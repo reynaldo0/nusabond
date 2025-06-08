@@ -1,10 +1,15 @@
-import { faFileAlt } from "@fortawesome/free-solid-svg-icons";
+import {
+  faChevronLeft,
+  faChevronRight,
+  faFileAlt,
+} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useLocation } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/pagination";
 import { Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
 
 // Import data budaya & hero
 import { jawaBudaya } from "../../../docs/jawaBudaya";
@@ -13,6 +18,7 @@ import { papuaBudaya } from "../../../docs/papuaBudaya";
 import { pulauHeroData } from "../../../docs/pulauHeroData";
 import { sulawesiBudaya } from "../../../docs/sulawesiBudaya";
 import { sumateraBudaya } from "../../../docs/sumateraBudaya";
+import { useRef, useState } from "react";
 
 // Peta data budaya
 const budayaMap = {
@@ -28,6 +34,10 @@ const Budaya = () => {
   const path = location.pathname;
   const slug = path.replace("/pulau-", "") || "jawa";
   const currentPulau = pulauHeroData[slug];
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
+  const [isBeginning, setIsBeginning] = useState(true);
+  const [isEnd, setIsEnd] = useState(false);
 
   const matchedKey = Object.keys(budayaMap).find((key) => path.startsWith(key));
 
@@ -83,7 +93,19 @@ const Budaya = () => {
       {/* ===== Section Swiper Slider ===== */}
       <section className="w-full px-4 py-10 pb-72">
         <Swiper
-          modules={[Pagination]}
+          modules={[Navigation]}
+          onInit={(swiper) => {
+            swiper.params.navigation.prevEl = prevRef.current;
+            swiper.params.navigation.nextEl = nextRef.current;
+            swiper.navigation.init();
+            swiper.navigation.update();
+            setIsBeginning(swiper.isBeginning);
+            setIsEnd(swiper.isEnd);
+          }}
+          onSlideChange={(swiper) => {
+            setIsBeginning(swiper.isBeginning);
+            setIsEnd(swiper.isEnd);
+          }}
           spaceBetween={20}
           slidesPerView={1}
           breakpoints={{
@@ -121,12 +143,42 @@ const Budaya = () => {
               </div>
             </SwiperSlide>
           ))}
+          <div className="flex justify-center gap-4">
+            <button
+              ref={prevRef}
+              disabled={isBeginning}
+              className={` rounded-full flex items-center justify-center transition border
+    ${
+      isBeginning
+        ? "bg-gray-200 w-13 h-12 text-gray-400 cursor-not-allowed border-gray-300"
+        : "bg-orange-400 w-20 h-12 text-white hover:bg-orange-500"
+    }
+  `}
+            >
+              <FontAwesomeIcon icon={faChevronLeft} className="text-2xl" />
+            </button>
+
+            <button
+              ref={nextRef}
+              disabled={isEnd}
+              className={`rounded-full flex items-center justify-center transition border
+    ${
+      isEnd
+        ? "bg-gray-200 w-13 h-12 text-gray-400 cursor-not-allowed border-gray-300"
+        : "bg-orange-400 w-20 h-12 text-white hover:bg-orange-500"
+    }
+  `}
+            >
+              <FontAwesomeIcon icon={faChevronRight} className="text-2xl" />
+            </button>
+          </div>
         </Swiper>
       </section>
       <div className="absolute bottom-0 w-screen">
         <img
           src="/illustrator/wave/footer.png"
           className="w-full h-full object-cover"
+          draggable="false"
         />
       </div>
     </div>
