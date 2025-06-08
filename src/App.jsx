@@ -12,6 +12,7 @@ import Kalimantan from "./pages/pulau/Kalimantan";
 import Quiz from "./pages/Quiz";
 import { HeroQuiz } from "./pages/HeroQuiz";
 import ScrollToTop from "./components/ScrollOnTop";
+import HeroSection from "./pages/TesHero";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
           <Route path="/pulau-kalimantan" element={<Kalimantan />} />
           <Route path="/quiz" element={<HeroQuiz />} />
           <Route path="/soal-quiz" element={<Quiz />} />
+          <Route path="/test" element={<HeroSection />} />
         </Routes>
       </PlayProvider>
     </BrowserRouter>
