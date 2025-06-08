@@ -22,7 +22,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/scene" element={<Scene />} />
           <Route path="/pulau-jawa" element={<Jawa />} />
           <Route path="/pulau-sumatera" element={<Sumatera />} />
           <Route path="/pulau-sulawesi" element={<Sulawesi />} />

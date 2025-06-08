@@ -56,7 +56,7 @@ export const Home = () => {
         {/* Button */}
         <div className="pt-5">
           <Link
-            to={"/scene"}
+            to={"/about"}
             id="exploreButton"
             className="relative flex items-center px-2 py-2 bg-[#F5A200] text-black font-medium rounded-full overflow-hidden hover:bg-[#F5A200]/90 group transition button-zoom-in"
           >
