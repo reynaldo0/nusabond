@@ -19,11 +19,11 @@ import { pulauHeroData } from "../../../docs/pulauHeroData";
 
 // Peta data budaya
 const budayaMap = {
-  "/pulau-jawa": { data: jawaBudaya, title: JawaTitle },
-  "/pulau-kalimantan": { data: kalimantanBudaya, title: kalimantanTitle },
-  "/pulau-sumatera": { data: sumateraBudaya, title: "Sumatera" },
-  "/pulau-sulawesi": { data: sulawesiBudaya, title: "Sulawesi" },
-  "/pulau-papua": { data: papuaBudaya, title: "Papua" },
+  "/pulau-jawa": { data: jawaBudaya },
+  "/pulau-kalimantan": { data: kalimantanBudaya },
+  "/pulau-sumatera": { data: sumateraBudaya },
+  "/pulau-sulawesi": { data: sulawesiBudaya },
+  "/pulau-papua": { data: papuaBudaya },
 };
 
 const CultureSlider = () => {
@@ -39,7 +39,6 @@ const CultureSlider = () => {
     : budayaMap["/pulau-jawa"];
 
   const cultures = selectedBudaya.data;
-  const budayaTitle = selectedBudaya.title;
 
   return (
     <>
@@ -83,7 +82,7 @@ const CultureSlider = () => {
       </section>
 
       {/* ===== Section Swiper Slider ===== */}
-      <section className="w-full px-4 py-10">
+      <section className="w-full px-4 py-10 ">
         <Swiper
           modules={[Pagination]}
           spaceBetween={20}
@@ -103,7 +102,7 @@ const CultureSlider = () => {
                 />
                 <div className="p-5 flex-1 bg-white flex flex-col -translate-y-8 z-10 rounded-2xl relative mx-5">
                   <span className="text-sm text-gray-400 uppercase mb-1">
-                    {budayaTitle}
+                    BUDAYA {currentPulau?.page}
                   </span>
                   <h3 className="text-3xl font-bold mb-2 pr-20">
                     {item.title}
